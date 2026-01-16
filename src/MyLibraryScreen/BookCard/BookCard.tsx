@@ -6,7 +6,7 @@ function BookCard() {
     return (
         <>
         <div className={styles.bookCard}>
-            <button className={styles.photoHolder}>
+            <button className={styles.transparentbutton}>
                 <div className={styles.backgroud}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" className={styles.icon}>
                         <path d="M32 18.6667V56" stroke="#6A7282" stroke-width="5.33333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -16,11 +16,49 @@ function BookCard() {
             </button>
 
             <div className={styles.InformationBox}>
-                <button className={styles.titleBox}>
-                    <h3 className={styles.title}>Title</h3>
-                    <p className={styles.author}>Author</p>
+                <button className={styles.titleAndAuthorBox}>
+                    <div className={styles.titleBox}>
+                        <h3 className={styles.title}>Title</h3>
+                    </div>
+                    <div className={styles.authorBox}>
+                        <p className={styles.author}>Author</p>
+                    </div>
                 </button>
+                <div className={styles.pageCounterNumbersBox}>
+                    <div className={styles.pageCounterNumbers}>
+                        <p className={styles.firstNumbner}>0</p>
+                        <p className={styles.secondNumber}>0/328</p>
+                    </div>
+                </div>
+                <div className={styles.pagesProgressBar}>
+                    <div className={styles.pagesProgressMarker}></div>
+                </div>
 
+                <div className={styles.editDeleteBox}>
+                    <button className={styles.editButton}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" className={styles.editIcon}>
+                            <path d="M8 2H3.33333C2.97971 2 2.64057 2.14048 2.39052 2.39052C2.14048 2.64057 2 2.97971 2 3.33333V12.6667C2 13.0203 2.14048 13.3594 2.39052 13.6095C2.64057 13.8595 2.97971 14 3.33333 14H12.6667C13.0203 14 13.3594 13.8595 13.6095 13.6095C13.8595 13.3594 14 13.0203 14 12.6667V8" stroke="#D1D5DC" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12.2499 1.74997C12.5151 1.48475 12.8748 1.33575 13.2499 1.33575C13.625 1.33575 13.9847 1.48475 14.2499 1.74997C14.5151 2.01518 14.6641 2.3749 14.6641 2.74997C14.6641 3.12504 14.5151 3.48475 14.2499 3.74997L8.24123 9.7593C8.08293 9.91747 7.88737 10.0332 7.67257 10.096L5.75723 10.656C5.69987 10.6727 5.63906 10.6737 5.58117 10.6589C5.52329 10.644 5.47045 10.6139 5.4282 10.5717C5.38594 10.5294 5.35583 10.4766 5.341 10.4187C5.32617 10.3608 5.32717 10.3 5.3439 10.2426L5.9039 8.3273C5.96692 8.11267 6.08292 7.91734 6.24123 7.7593L12.2499 1.74997Z" stroke="#D1D5DC" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span className={styles.editText}>Edit</span>
+                    </button>
+                    <button className={styles.deleteButton}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" className={styles.deleteIcon}>
+                            <g clip-path="url(#clip0_1_171)">
+                                <path d="M6.66675 7.33331V11.3333" stroke="#FF6467" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.33325 7.33331V11.3333" stroke="#FF6467" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12.6666 4V13.3333C12.6666 13.687 12.5261 14.0261 12.2761 14.2761C12.026 14.5262 11.6869 14.6667 11.3333 14.6667H4.66659C4.31296 14.6667 3.97382 14.5262 3.72378 14.2761C3.47373 14.0261 3.33325 13.687 3.33325 13.3333V4" stroke="#FF6467" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 4H14" stroke="#FF6467" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M5.33325 3.99998V2.66665C5.33325 2.31302 5.47373 1.97389 5.72378 1.72384C5.97383 1.47379 6.31296 1.33331 6.66659 1.33331H9.33325C9.68687 1.33331 10.026 1.47379 10.2761 1.72384C10.5261 1.97389 10.6666 2.31302 10.6666 2.66665V3.99998" stroke="#FF6467" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_1_171">
+                                <rect width="16" height="16" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
         </>
