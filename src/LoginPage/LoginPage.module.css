@@ -1,0 +1,136 @@
+.backgroud{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #101828 0%, #1E2939 50%, #312C85 100%);
+    position: fixed;   /* stays in one place */
+    top: 0;
+    left: 0;
+}
+
+.wholeBlock{
+    display: flex;
+    width: 28rem;
+    height: 38.42425rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    flex-shrink: 0;
+}
+
+.pageLogoContainer{
+    height: 10.5rem;
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+.logo{
+    display: flex;
+    width: 5rem;
+    height: 5rem;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1677718.75rem;
+    background: #615FFF;
+    box-sizing: border-box;
+}
+
+.logoIcon{
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+}
+
+.pageTitleBox
+{
+    display: inline-flex;
+    padding: 0 7.18594rem 0rem 7.25156rem;
+    justify-content: center;
+    align-items: center;
+}
+.pageTitle{
+    color: #FFF;
+    text-align: center;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 2.5rem; /* 111.111% */
+}
+
+.pageTitleTextBox{
+    display: inline-flex;
+    padding: 0 5.54531rem 0rem 5.57969rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.pageTitleText{
+    color: #99A1AF;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem; /* 150% */
+}
+
+
+.googleSignInBox{
+    height: 23.17425rem;
+    flex-shrink: 0;
+    align-self: stretch;
+    border-radius: 1rem;
+    border: 0.8px solid #364153;
+    background: #1E2939;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.10);
+}
+
+.welcomeBox{
+    display: flex;
+    width: 23.9rem;
+    height: 1.99925rem;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2.05rem 2.05rem 2.05rem 2.05rem;
+}
+
+.welcomeSign{
+        color: #FFF;
+    text-align: center;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 2rem; /* 133.333% */
+    
+}
+
+.continueWithGoogleButton{
+    display: flex;
+    width: 23.9rem;
+    height: 3.2rem;
+    padding-right: 0;
+    margin-left: 2rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 0.625rem;
+    border: 1.6px solid #4A5565;
+    background: #364153;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 1px 2px -1px rgba(0, 0, 0, 0.10);
+}
+
+.googleIcon{
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+}
+
+.continueWithGoogleText{
+    display: flex;
+    padding: 0 0.17031rem 0.1375rem 0.125rem;
+    justify-content: center;
+    align-items: center;
+    color: #FFF;
+}
