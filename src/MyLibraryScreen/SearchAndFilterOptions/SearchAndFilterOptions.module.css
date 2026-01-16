@@ -18,7 +18,7 @@
 
 .filterButton{
     display: flex;
-    padding: 0.4125rem 0.9695rem 0.675rem 1.05rem;
+    padding: 0.4125rem 0rem 0.675rem 1.05rem;
     justify-content: center;
     align-items: flex-end;
     gap: 0.4375rem;
@@ -30,6 +30,20 @@
 .filterIcon{
     width: 1.25rem;
     height: 1.25rem;
+}
+
+.filterSelect{
+    appearance: none;
+    background: #1E2939;
+    border: 0;
+    outline: none;
+    color: #D1D5DC;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5rem;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
 }
 
 .filtersText{
