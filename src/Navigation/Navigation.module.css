@@ -65,6 +65,8 @@
     gap: 0.5rem;
     border: 1.6px solid rgba(0, 0, 0, 0.00);
     background: #1E2939;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
 }
 
 .icon2{
@@ -84,6 +86,10 @@
     font-style: normal;
     font-weight: 400;
     line-height: 1.5rem; /* 150% */
+}
+.button2:hover {
+    background: #232f44;
+    border-bottom: 1.6px solid #7C86FF;
 }
 .button3{
     display: flex;

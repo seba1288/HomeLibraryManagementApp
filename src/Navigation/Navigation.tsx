@@ -1,7 +1,10 @@
-
 import styles from "./Navigation.module.css";
 
-function Header() {
+type NavigationProps = {
+  onAddBookClick: () => void;
+};
+
+function Navigation({ onAddBookClick }: NavigationProps) {
 
     return (
         <>
@@ -14,7 +17,7 @@ function Header() {
                         </svg>
                     <span className={styles.button1text}>My Library</span>
                 </button>
-                <button className={styles.button2}>
+                <button className={styles.button2} onClick={onAddBookClick}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className={styles.icon2}>
                         <path d="M4.16675 10H15.8334" stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M10 4.16666V15.8333" stroke="#99A1AF" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
@@ -36,4 +39,4 @@ function Header() {
     );
 }
 
-export default Header;
+export default Navigation;
