@@ -12,13 +12,20 @@
 }
 
 .modal {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 90%;
   max-width: 500px;
   max-height: 80vh;
   overflow-y: auto;
+  display: inline-flex;
+  padding: 1.55rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.5rem;
+  border-radius: 0.625rem;
+  border: 0.8px solid #364153;
+  background: #1E2939;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 1px 2px -1px rgba(0, 0, 0, 0.10);
 }
 
 .header {
@@ -27,13 +34,21 @@
   align-items: center;
   padding: 20px;
   border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  height: 1.99925rem;
+  align-items: flex-start;
+  flex-shrink: 0;
+  width: 90%;
+
 }
 
 .header h2 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #1f2937;
+   color:#d1d5db;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2rem; /* 133.333% */
+  margin-top: 9rem;
 }
 
 .closeButton {
@@ -50,6 +65,8 @@
   justify-content: center;
   border-radius: 4px;
   transition: background-color 0.2s;
+  margin-top: 9rem;
+  margin-left: 1rem;
 }
 
 .closeButton:hover {
@@ -59,34 +76,46 @@
 
 .content {
   padding: 20px;
+  margin-top: 6rem;
+  width: 90%;
 }
 
 .form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+
 }
 
 .form label {
   display: flex;
   flex-direction: column;
   font-size: 15px;
-  color: #374151;
   font-weight: 500;
   margin-bottom: 4px;
+  color: #D1D5DC;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem; 
 }
 
 .form input,
 .form textarea {
   margin-top: 6px;
-  padding: 8px 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 5px;
   font-size: 15px;
-  background: #f9fafb;
-  color: #1f2937;
+  color: #D1D5DC;
   outline: none;
   transition: border-color 0.2s;
+
+  display: flex;
+  padding: 0.5rem 0.75rem;
+  align-items: center;
+  flex-shrink: 0;
+  align-self: stretch;
+  border-radius: 0.5rem;
+  border: 0.8px solid #4A5565;
+  background: #364153;
 }
 
 .form input:focus,
@@ -110,8 +139,17 @@
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .form button[type="submit"]:hover {
   background: #5a65d6;
+}
+
+.AddBookIcon{
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.75rem;
 }
