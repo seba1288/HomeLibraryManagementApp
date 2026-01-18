@@ -1,6 +1,6 @@
 import styles from "./BookCard.module.css";
 import { useState } from "react";
-import EditBookModal from "../../EditBookModal/EditBookModal";
+import EditBookModal from "../../../components/EditBookModal/EditBookModal";
 
 
 
