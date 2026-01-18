@@ -1,56 +1,58 @@
 // Main tables
 export interface Book {
-  book_id: number
+  id: number
   title: string
   year_of_publishing: number | null
+  isbn: string | null
+  pages_count: number | null
   main_character: string | null
-  notes: string | null
-  cover_url: string | null
+  reading_status: 'UNREAD' | 'READING' | 'COMPLETED'
   publisher_id: number | null
   series_id: number | null
   category_id: number | null
+  cover_url: string
+  notes: string
 }
 
 export interface Author {
-  author_id: number
+  id: number
   first_name: string
   middle_name: string | null
   last_name: string
-  alt: string | null
-  monandry: string | null
+  alias: string | null
+  monastery: string | null
   title: string | null
 }
 
 export interface Publisher {
-  publisher_id: number
+  id: number
   name: string
 }
 
 export interface Series {
-  series_id: number
+  id: number
   name: string
 }
 
 export interface Category {
-  category_id: number
+  id: number
   name: string
 }
 
 export interface Genre {
-  genre_id: number
+  id: number
   name: string
 }
 
 export interface Topic {
-  topic_id: number
+  id: number
   name: string
 }
 
-export interface User {
-  user_id: number
-  username: string
-  email: string
-  password_hash: string
+export interface Note {
+  id: number
+  description: string
+  book_id: number
 }
 
 // Junction tables
@@ -69,28 +71,39 @@ export interface BookTopic {
   topic_id: number
 }
 
+export interface BookSeries {
+  book_id: number
+  series_id: number
+}
+
 export interface SeriesAuthor {
   series_id: number
   author_id: number
 }
 
-export interface UserLibrary {
-  entry_id: number
-  user_id: number
-  book_id: number
-  status: string
-  personal_notes: string | null
-  date_added: string | null
+// Extended types with relations
+export interface BookWithRelations extends Book {
+  authors?: Author[]
+  genres?: Genre[]
+  topics?: Topic[]
+  publisher?: Publisher | null
+  series?: Series | null
+  category?: Category | null
 }
 
 // Form data types (for inserts - without auto-generated IDs)
 export interface BookFormData {
   title: string
-  year_of_publishing: number | null
-  main_character: string | null
-  notes: string | null
-  cover_url: string | null
-  publisher_id: number | null
-  series_id: number | null
-  category_id: number | null
+  year_of_publishing?: number | null
+  isbn?: string | null
+  pages_count?: number | null
+  main_character?: string | null
+  reading_status?: 'UNREAD' | 'READING' | 'COMPLETED'
+  publisher_id?: number | null
+  series_id?: number | null
+  category_id?: number | null
+  cover_url?: string
+  notes?: string
+  authors?: string[]
+  genres?: string[]
 }
