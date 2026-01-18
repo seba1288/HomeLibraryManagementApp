@@ -105,7 +105,7 @@ export async function recommendBooks(userId: number, limit = 10) {
   // 3) fetch books in those genres excluding user's books
   const { data: bgLinks } = await supabase.from('book_genres').select('book_id').in('genre_id', topGenreIds)
   const candidateIds = Array.from(new Set((bgLinks || []).map((r: any) => r.book_id))).filter((id) => !userBookIds.includes(id))
-  if (!candidateIds.length) return []
+//   if (!candidateIds.length) return []
 
   const { data: candidates } = await supabase.from('books').select('*').in('book_id', candidateIds).limit(limit)
   return candidates || []
@@ -122,7 +122,6 @@ export async function fetchBookCover(title: string, author?: string, isbn?: stri
   try {
     let query = ''
     
-    // ISBN is the most accurate way to search
     if (isbn) {
       query = `isbn:${isbn}`
     } else {
