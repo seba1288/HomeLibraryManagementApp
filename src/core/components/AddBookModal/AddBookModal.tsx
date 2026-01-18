@@ -431,15 +431,13 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
                 {selectedAuthors.map(id => {
                   const author = availableAuthors.find(a => a.id === id);
                   return author ? (
-                    <span key={id} className={styles.authorTag}>
+                    <span 
+                      key={id} 
+                      className={styles.authorTag}
+                      onClick={() => setSelectedAuthors(selectedAuthors.filter(a => a !== id))}
+                      title="Click to remove"
+                    >
                       {getAuthorDisplayName(author)}
-                      <button
-                        type="button"
-                        onClick={() => setSelectedAuthors(selectedAuthors.filter(a => a !== id))}
-                        className={styles.removeAuthor}
-                      >
-                        ×
-                      </button>
                     </span>
                   ) : null;
                 })}
