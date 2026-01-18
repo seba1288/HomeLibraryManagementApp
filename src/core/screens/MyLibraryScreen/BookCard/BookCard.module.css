@@ -429,8 +429,34 @@
   transition: filter 0.2s;
 }
 
-.deleteButton:hover .deleteIcon{
-  filter: brightness(1.2);
+/* Add Button for Recommendations */
+.addButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 2.5rem;
+    border-radius: 0.25rem;
+    background: transparent;
+    border: 1px solid #7C86FF;
+    color: #7C86FF;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    margin-top: auto;
+}
+
+.addButton:hover {
+    background: #7C86FF;
+    color: white;
+}
+
+.addButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #5a62b8;
+    color: #5a62b8;
 }
 
 /* Cover image styles */

@@ -1,0 +1,104 @@
+.container {
+    padding-top: 24px;
+    width: 100%;
+    margin-top: 8.5rem;
+    overflow-x: hidden; /* Prevent horizontal scroll on body */
+}
+
+.centeredContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.screenTitle {
+    color: #fff;
+    margin-bottom: 32px;
+}
+
+.loading {
+    color: #99A1AF;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 18px;
+}
+
+.section {
+    margin-bottom: 64px;
+}
+
+.sectionTitle {
+    color: #7C86FF;
+    font-size: 20px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #2D3340;
+    padding-bottom: 8px;
+    display: inline-block;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    gap: 32px;
+    padding-bottom: 24px;
+    scrollbar-color: #2D3340 transparent;
+    
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.carousel::-webkit-scrollbar {
+    height: 6px;
+}
+
+.carousel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+    background-color: #2D3340;
+    border-radius: 4px;
+}
+
+.bookWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 16.5rem;
+    flex-shrink: 0;
+}
+
+.bookCardAdjust {
+    /* Removed scaling to fix alignment/blur issues */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.addButton {
+    margin-top: 8px;
+    background-color: transparent;
+    border: 1px solid #7C86FF;
+    color: #7C86FF;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+.addButton:hover {
+    background-color: #7C86FF;
+    color: white;
+}
+
+.addButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.empty {
+    color: #99A1AF;
+    text-align: center;
+    margin-top: 40px;
+}
