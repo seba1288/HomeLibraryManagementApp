@@ -113,6 +113,7 @@ function ImportExportScreen({ onImportComplete }: ImportExportScreenProps) {
             isbn: book.isbn || null,
             pages: book.pages ? Number(book.pages) : null,
             notes: book.notes || null,
+            current_page: book.current_page ? Number(book.current_page) : 0,
             cover_url: book.cover_url || null,
           });
           imported++;
