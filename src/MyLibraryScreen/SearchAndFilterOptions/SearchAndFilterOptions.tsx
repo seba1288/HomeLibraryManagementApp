@@ -128,8 +128,9 @@ function SearchAndFilterOptions({ onSortChange, onFilterChange }: { onSortChange
                                     <label>Status</label>
                                     <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
                                         <option value="All Status">All Status</option>
-                                        <option value="Available">Available</option>
-                                        <option value="Borrowed">Borrowed</option>
+                                        <option value="COMPLETED">Completed</option>
+                                        <option value="UNREAD">Unread</option>
+                                        <option value="READING">Reading</option>
                                     </select>
                                 </div>
                                 <div className={styles.filterGroup}>

@@ -12,6 +12,7 @@ function MyLibraryScreen({ onBookDeleted }: { onBookDeleted: () => void }) {
     const [allBooks, setAllBooks] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [sort, setSort] = useState("date_desc");
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [filters, setFilters] = useState({
         status: "All Status",
         genre: "All Genres",
@@ -27,12 +28,18 @@ function MyLibraryScreen({ onBookDeleted }: { onBookDeleted: () => void }) {
             setLoading(false);
         }
         fetchBooks();
-    }, []);
+    }, [refreshTrigger]);
 
     const applyFiltersAndSort = (booksToFilter: any[], sortType: string, currentFilters: any) => {
         let filtered = [...booksToFilter];
 
         // Apply filters
+        if (currentFilters.status !== "All Status") {
+            filtered = filtered.filter((book: any) => {
+                console.log(`Comparing book status: "${book.status}" with filter: "${currentFilters.status}"`, book.status === currentFilters.status);
+                return book.status === currentFilters.status;
+            });
+        }
         if (currentFilters.author !== "All Authors") {
             filtered = filtered.filter((book: any) =>
                 book.authors && book.authors.some((a: any) => a.first_name === currentFilters.author)
@@ -85,6 +92,7 @@ function MyLibraryScreen({ onBookDeleted }: { onBookDeleted: () => void }) {
         if (!window.confirm("Are you sure you want to delete this book?")) return;
         try {
             await deleteBook(bookId);
+            setRefreshTrigger(prev => prev + 1);
             onBookDeleted();
         } catch (err) {
             alert("Failed to delete book.");
@@ -103,7 +111,7 @@ function MyLibraryScreen({ onBookDeleted }: { onBookDeleted: () => void }) {
                 ) : (
                     <div className={styles.booksGrid}>
                         {books.map((book, idx) => (
-                            <BookCard key={idx} book={book} onDelete={handleDelete} onBookUpdated={onBookDeleted} />
+                            <BookCard key={idx} book={book} onDelete={handleDelete} onBookUpdated={() => setRefreshTrigger(prev => prev + 1)} />
                         ))}
                     </div>
                 )

@@ -18,6 +18,7 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
   const [pages, setPages] = useState(book?.pages || '');
   const [notes, setNotes] = useState(book?.notes || '');
   const [coverUrl, setCoverUrl] = useState(book?.cover_url || '');
+  const [status, setStatus] = useState(book?.status || 'UNREAD');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,6 +38,7 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
         pages: pages ? Number(pages) : null,
         notes: notes || null,
         cover_url: coverUrl || null,
+        status: status || 'UNREAD',
       });
       setLoading(false);
       onClose();
@@ -87,6 +89,14 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
             <label>
               Cover URL
               <input type="text" value={coverUrl} onChange={e => setCoverUrl(e.target.value)} />
+            </label>
+            <label>
+              Status
+              <select value={status} onChange={e => setStatus(e.target.value)}>
+                <option value="UNREAD">Unread</option>
+                <option value="READING">Reading</option>
+                <option value="COMPLETED">Completed</option>
+              </select>
             </label>
             <button type="submit" disabled={loading}>
               {loading ? 'Saving...' : 'Save Changes'}
