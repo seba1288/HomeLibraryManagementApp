@@ -5,7 +5,7 @@ import styles from "./MyLibraryScreen.module.css";
 import { deleteBook, getBooks } from "../../services/books/books.service.ts";
 
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 type MyLibraryScreenProps = {
     refreshKey?: number;
@@ -86,11 +86,11 @@ function MyLibraryScreen({ refreshKey = 0 }: MyLibraryScreenProps) {
 
     useEffect(() => {
         applyFiltersAndSort(allBooks, sort, filters);
-    }, [sort, filters]);
+    }, [sort, filters, allBooks]);
 
-    const handleFilterChange = (newFilters: any) => {
+    const handleFilterChange = useCallback((newFilters: any) => {
         setFilters(newFilters);
-    };
+    }, []);
 
     const handleDelete = async (bookId: number) => {
         if (!window.confirm("Are you sure you want to delete this book?")) return;
