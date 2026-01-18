@@ -51,7 +51,7 @@ function BookCard({ book, onDelete, onBookUpdated, disableMargins, hideActions, 
     
     // Calculate progress percentage
     const progressPercentage = book.pages && book.pages > 0 
-        ? Math.min(Math.round(((book.current_page || 0) / book.pages) * 100), 100)
+        ? Math.min(Math.floor(((book.current_page || 0) / book.pages) * 100), 100)
         : 0;
     
     const circumference = 2 * Math.PI * 18; // radius = 18
