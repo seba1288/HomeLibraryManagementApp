@@ -5,10 +5,11 @@ import Navigation from './core/components/Navigation/Navigation.tsx';
 import MyLibraryScreen from './core/screens/MyLibraryScreen/MyLibraryScreen.tsx';
 import AddBookModal from './core/components/AddBookModal/AddBookModal.tsx';
 import ShelvesScreen from './core/screens/ShelvesScreen/ShelvesScreen.tsx';
+import ImportExportScreen from './core/screens/ImportExportScreen/ImportExportScreen.tsx';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentView, setCurrentView] = useState<'library' | 'shelves'>('library');
+  const [currentView, setCurrentView] = useState<'library' | 'shelves' | 'import-export'>('library');
   const [refreshKey, setRefreshKey] = useState(0);
 
   const handleOpenModal = () => setIsModalOpen(true);
@@ -16,6 +17,23 @@ function App() {
 
   const handleBookAdded = () => {
     setRefreshKey(prev => prev + 1);
+  };
+
+  const handleImportComplete = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
+  const renderCurrentView = () => {
+    switch (currentView) {
+      case 'library':
+        return <MyLibraryScreen refreshKey={refreshKey} />;
+      case 'shelves':
+        return <ShelvesScreen />;
+      case 'import-export':
+        return <ImportExportScreen onImportComplete={handleImportComplete} />;
+      default:
+        return <MyLibraryScreen refreshKey={refreshKey} />;
+    }
   };
 
   return (
@@ -27,11 +45,7 @@ function App() {
           currentView={currentView}
           onViewChange={setCurrentView}
         />
-        {currentView === 'library' ? (
-          <MyLibraryScreen refreshKey={refreshKey} />
-        ) : (
-          <ShelvesScreen />
-        )}
+        {renderCurrentView()}
         <AddBookModal isOpen={isModalOpen} onClose={handleCloseModal} onBookAdded={handleBookAdded} />
       </div>
     </>

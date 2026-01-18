@@ -5,11 +5,9 @@ export interface Book {
   year_of_publishing: number | null
   isbn: string | null
   pages_count: number | null
-  main_character: string | null
   reading_status: 'UNREAD' | 'READING' | 'COMPLETED'
   publisher_id: number | null
   series_id: number | null
-  category_id: number | null
   cover_url: string
   notes: string
 }
@@ -97,11 +95,9 @@ export interface BookFormData {
   year_of_publishing?: number | null
   isbn?: string | null
   pages_count?: number | null
-  main_character?: string | null
   reading_status?: 'UNREAD' | 'READING' | 'COMPLETED'
   publisher_id?: number | null
   series_id?: number | null
-  category_id?: number | null
   cover_url?: string
   notes?: string
   authors?: string[]

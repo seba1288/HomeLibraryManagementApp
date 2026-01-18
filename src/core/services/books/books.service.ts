@@ -11,7 +11,6 @@ type BookInput = {
   cover_url?: string | null
   publisher_id?: number | null
   series_id?: number | null
-  category_id?: number | null
   status?: string | null
 }
 
@@ -112,7 +111,6 @@ export async function createBook(input: BookInput) {
     cover_url: input.cover_url ?? null,
     publisher_id: input.publisher_id ?? null,
     series_id: input.series_id ?? null,
-    category_id: input.category_id ?? null,
   }
 
   if (input.isbn) payload.isbn = input.isbn
@@ -155,7 +153,6 @@ export async function updateBook(bookId: number, input: Partial<BookInput>) {
   if (input.cover_url !== undefined) payload.cover_url = input.cover_url
   if (input.publisher_id !== undefined) payload.publisher_id = input.publisher_id
   if (input.series_id !== undefined) payload.series_id = input.series_id
-  if (input.category_id !== undefined) payload.category_id = input.category_id
   if (input.isbn !== undefined) payload.isbn = input.isbn
   if (input.pages !== undefined) payload.pages = input.pages
   if (input.status !== undefined) payload.status = input.status

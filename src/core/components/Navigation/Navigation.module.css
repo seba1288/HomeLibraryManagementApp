@@ -26,7 +26,8 @@
 }
 .button1{
     display: flex;
-    width: 9rem;
+    min-width: 9rem;
+    width: auto;
     height: 3.1rem;
     padding: 0 1rem;
     align-items: center;
@@ -58,7 +59,8 @@
 }
 .button2{
     display: flex;
-    width: 9rem;
+    min-width: 9rem;
+    width: auto;
     height: 3.1rem;
     padding: 0 1rem;
     align-items: center;
