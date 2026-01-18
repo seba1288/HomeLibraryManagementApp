@@ -25,7 +25,7 @@ async function findOrCreateAuthor(name: string) {
   // try to find by first_name (case-insensitive)
   let { data, error } = await supabase
     .from('authors')
-    .select('author_id, first_name')
+    .select('id, first_name')
     .ilike('first_name', norm)
     .limit(1)
 
@@ -34,21 +34,21 @@ async function findOrCreateAuthor(name: string) {
     data = null
   }
 
-  if (data && data.length > 0) return data[0].author_id
+  if (data && data.length > 0) return data[0].id
 
-  const insertResp = await supabase.from('authors').insert({ first_name: norm }).select('author_id').limit(1)
+  const insertResp = await supabase.from('authors').insert({ first_name: norm, last_name: '' }).select('id').limit(1)
   if (insertResp.error) throw insertResp.error
-  return insertResp.data?.[0]?.author_id
+  return insertResp.data?.[0]?.id
 }
 
 async function findOrCreateGenre(name: string) {
   const norm = normalizeName(name)
-  let { data, error } = await supabase.from('genres').select('genre_id, name').ilike('name', norm).limit(1)
+  let { data, error } = await supabase.from('genres').select('id, name').ilike('name', norm).limit(1)
   if (error) data = null
-  if (data && data.length > 0) return data[0].genre_id
-  const insertResp = await supabase.from('genres').insert({ name: norm }).select('genre_id').limit(1)
+  if (data && data.length > 0) return data[0].id
+  const insertResp = await supabase.from('genres').insert({ name: norm }).select('id').limit(1)
   if (insertResp.error) throw insertResp.error
-  return insertResp.data?.[0]?.genre_id
+  return insertResp.data?.[0]?.id
 }
 
 async function tryInsertBook(payload: Record<string, any>) {
@@ -120,7 +120,7 @@ export async function createBook(input: BookInput) {
   const inserted = await tryInsertBook(payload)
   if (inserted.error) throw inserted.error
   const book: BookRecord = inserted.data
-  const bookId = book.book_id || book.id || book.bookId
+  const bookId = book.id
 
   // authors
   if (input.authors && input.authors.length) {
@@ -159,7 +159,7 @@ export async function updateBook(bookId: number, input: Partial<BookInput>) {
   if (input.pages !== undefined) payload.pages = input.pages
 
   if (Object.keys(payload).length) {
-    const { error } = await supabase.from('books').update(payload).eq('book_id', bookId)
+    const { error } = await supabase.from('books').update(payload).eq('id', bookId)
     if (error && !(error.message || '').toLowerCase().includes('column')) throw error
   }
 
@@ -208,7 +208,7 @@ export async function deleteBook(bookId: number) {
   if (!bookId) throw new Error('bookId required')
   await supabase.from('book_authors').delete().eq('book_id', bookId).match(() => null)
   await supabase.from('book_genres').delete().eq('book_id', bookId).match(() => null)
-  const { data, error } = await supabase.from('books').delete().eq('book_id', bookId).select().maybeSingle()
+  const { data, error } = await supabase.from('books').delete().eq('id', bookId).select().maybeSingle()
   if (error) throw error
   return data
 }
@@ -218,19 +218,19 @@ export async function getBooks(opts?: { search?: string; genre?: string; author?
   let { data: books, error } = await supabase.from('books').select('*').limit(limit).order('title', { ascending: true })
   if (error) throw error
   if (!books || !books.length) return []
-  const ids = books.map((b: any) => b.book_id)
+  const ids = books.map((b: any) => b.id)
 
   const { data: ba } = await supabase.from('book_authors').select('book_id, author_id').in('book_id', ids)
   const authorIds = (ba || []).map((r: any) => r.author_id)
-  const { data: authors } = await supabase.from('authors').select('*').in('author_id', authorIds)
+  const { data: authors } = await supabase.from('authors').select('*').in('id', authorIds)
 
   const { data: bg } = await supabase.from('book_genres').select('book_id, genre_id').in('book_id', ids)
   const genreIds = (bg || []).map((r: any) => r.genre_id)
-  const { data: genres } = await supabase.from('genres').select('*').in('genre_id', genreIds)
+  const { data: genres } = await supabase.from('genres').select('*').in('id', genreIds)
 
   const authorsByBook: Record<number, any[]> = {}
   for (const link of (ba || [])) {
-    const a = (authors || []).find((x: any) => x.author_id === link.author_id)
+    const a = (authors || []).find((x: any) => x.id === link.author_id)
     if (!a) continue
     authorsByBook[link.book_id] = authorsByBook[link.book_id] || []
     authorsByBook[link.book_id].push(a)
@@ -238,13 +238,13 @@ export async function getBooks(opts?: { search?: string; genre?: string; author?
 
   const genresByBook: Record<number, any[]> = {}
   for (const link of (bg || [])) {
-    const g = (genres || []).find((x: any) => x.genre_id === link.genre_id)
+    const g = (genres || []).find((x: any) => x.id === link.genre_id)
     if (!g) continue
     genresByBook[link.book_id] = genresByBook[link.book_id] || []
     genresByBook[link.book_id].push(g)
   }
 
-  const combined = books.map((b: any) => ({ ...b, authors: authorsByBook[b.book_id] || [], genres: genresByBook[b.book_id] || [] }))
+  const combined = books.map((b: any) => ({ ...b, authors: authorsByBook[b.id] || [], genres: genresByBook[b.id] || [] }))
 
   // basic filtering client-side (search, author, genre, year) if opts provided
   let filtered = combined
@@ -266,18 +266,18 @@ export async function getBooks(opts?: { search?: string; genre?: string; author?
 }
 
 export async function getBookById(bookId: number) {
-  const { data: bookArr, error } = await supabase.from('books').select('*').eq('book_id', bookId).limit(1)
+  const { data: bookArr, error } = await supabase.from('books').select('*').eq('id', bookId).limit(1)
   if (error) throw error
   const book = (bookArr || [])[0]
   if (!book) return null
 
   const { data: ba } = await supabase.from('book_authors').select('author_id').eq('book_id', bookId)
   const authorIds = (ba || []).map((r: any) => r.author_id)
-  const { data: authors } = await supabase.from('authors').select('*').in('author_id', authorIds)
+  const { data: authors } = await supabase.from('authors').select('*').in('id', authorIds)
 
   const { data: bg } = await supabase.from('book_genres').select('genre_id').eq('book_id', bookId)
   const genreIds = (bg || []).map((r: any) => r.genre_id)
-  const { data: genres } = await supabase.from('genres').select('*').in('genre_id', genreIds)
+  const { data: genres } = await supabase.from('genres').select('*').in('id', genreIds)
 
   return { ...book, authors: authors || [], genres: genres || [] }
 }
@@ -289,4 +289,5 @@ export default {
   getBooks,
   getBookById,
   fetchIsbnFromOpenLibrary,
+  
 }
