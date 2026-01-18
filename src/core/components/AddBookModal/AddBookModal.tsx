@@ -284,8 +284,8 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
   };
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+    <div className={styles.overlay} onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className={styles.modal}>
         <div className={styles.header}>
           <h2>Add a New Book</h2>
           <button className={styles.closeButton} onClick={onClose}>
