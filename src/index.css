@@ -4,4 +4,6 @@ html {
 
 body{
   background: #101828;
+  margin: 0;
+  padding-left: 14rem;
 }

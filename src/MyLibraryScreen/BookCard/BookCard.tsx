@@ -48,17 +48,15 @@ function BookCard({ book, onDelete, onBookUpdated }: BookCardProps) {
                         <h3 className={styles.title}>{book.title}</h3>
                     </div>
                     <div className={styles.authorBox}>
+                        <p className={styles.rowTitle}>Author:</p>
                         <p className={styles.author}>{book.authors && book.authors.length ? book.authors.map((a: Author | string) => typeof a === 'string' ? a : a.first_name || 'Unknown').join(', ') : 'Unknown Author'}</p>
                     </div>
                 </button>
                 <div className={styles.pageCounterNumbersBox}>
                     <div className={styles.pageCounterNumbers}>
-                        <p className={styles.firstNumbner}>{book.pages || 0}</p>
-                        <p className={styles.secondNumber}>{book.pages ? `0/${book.pages}` : '0/0'}</p>
+                        <p className={styles.rowTitle}>Pages:</p>
+                        <p className={styles.pagesNumber}>{book.pages ? `0/${book.pages}` : '0/0'}</p>
                     </div>
-                </div>
-                <div className={styles.pagesProgressBar}>
-                    <div className={styles.pagesProgressMarker}></div>
                 </div>
                 <div className={styles.editDeleteBox}>
                     <button className={styles.editButton} onClick={() => setIsEditOpen(true)}>
@@ -84,8 +82,8 @@ function BookCard({ book, onDelete, onBookUpdated }: BookCardProps) {
                             </defs>
                         </svg>
                     </button>
+                    </div>
                 </div>
-            </div>
             <EditBookModal isOpen={isEditOpen} onClose={() => setIsEditOpen(false)} book={book} onBookUpdated={onBookUpdated} />
         </div>
     );
