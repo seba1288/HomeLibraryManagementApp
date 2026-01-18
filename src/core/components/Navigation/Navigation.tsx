@@ -2,8 +2,8 @@ import styles from "./Navigation.module.css";
 
 type NavigationProps = {
   onAddBookClick: () => void;
-  currentView: 'library' | 'shelves';
-  onViewChange: (view: 'library' | 'shelves') => void;
+  currentView: 'library' | 'shelves' | 'import-export';
+  onViewChange: (view: 'library' | 'shelves' | 'import-export') => void;
 };
 
 function Navigation({ onAddBookClick, currentView, onViewChange }: NavigationProps) {
@@ -30,6 +30,12 @@ function Navigation({ onAddBookClick, currentView, onViewChange }: NavigationPro
                         <path d="M10 2.5L2.5 6.66667V17.5L10 13.3333L17.5 17.5V6.66667L10 2.5Z" stroke="currentColor" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     <span className={currentView === 'shelves' ? styles.button1text : styles.button2text}>Shelves</span>
+                </button>
+                <button 
+                    className={currentView === 'import-export' ? styles.button1 : styles.button2} 
+                    onClick={() => onViewChange('import-export')}
+                >
+                    <span className={currentView === 'import-export' ? styles.button1text : styles.button2text}>Import/Export</span>
                 </button>
                 <button className={styles.button2} onClick={onAddBookClick}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className={styles.icon2}>
