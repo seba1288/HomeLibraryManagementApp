@@ -5,3 +5,10 @@
   justify-content: flex-start;
   margin-top: 24px;
 }
+
+
+.loadingText{
+    color: #D1D5DC;
+    font-weight: 400;
+    margin-top: 2rem;
+}

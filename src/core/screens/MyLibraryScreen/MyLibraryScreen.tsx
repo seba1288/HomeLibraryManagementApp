@@ -107,10 +107,10 @@ function MyLibraryScreen({ refreshKey = 0 }: MyLibraryScreenProps) {
             <SearchAndFilterOptions onSortChange={setSort} onFilterChange={handleFilterChange} />
             <BookCount refreshTrigger={refreshKey + localRefresh} />
             {loading ? (
-                <p>Loading books...</p>
+                <p className={styles.loadingText}>Loading books...</p>
             ) : (
                 books.length === 0 ? (
-                    <p>No books found.</p>
+                    <p className={styles.loadingText}>No books found.</p>
                 ) : (
                     <div className={styles.booksGrid}>
                         {books.map((book, idx) => (

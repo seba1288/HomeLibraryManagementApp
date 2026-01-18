@@ -16,11 +16,11 @@
   max-width: 500px;
   max-height: 80vh;
   overflow-y: auto;
-  display: inline-flex;
+  display: flex;
   padding: 1.55rem;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: flex-start;
+  align-items: stretch;
   gap: 1.5rem;
   border-radius: 0.625rem;
   border: 0.8px solid #364153;
@@ -30,16 +30,14 @@
 
 
 .header {
+  position: relative; 
   display: flex;
-  justify-content: space-between;
+  padding: 0;
   align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  height: 1.99925rem;
-  align-items: flex-start;
   flex-shrink: 0;
   width: 90%;
+  justify-content: space-between; 
+  margin-left: 1rem;
 }
 
 .header h2 {
@@ -48,11 +46,12 @@
   font-style: normal;
   font-weight: 400;
   line-height: 2rem; 
-  margin-top: 9rem;
+
 }
 
 .closeButton {
- background: none;
+  position: static;
+  background: none;
   border: none;
   font-size: 24px;
   cursor: pointer;
@@ -64,9 +63,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  transition: background-color 0.2s;
-  margin-top: 9rem;
-  margin-left: 1rem;
+  transition: 0.2s;
+  margin: 0;
 }
 
 .closeButton:hover {
@@ -75,8 +73,8 @@
 }
 
 .content {
-  padding: 20px;
-  margin-top: 6rem;
+  padding: 0 20px;
+  margin-top: 0;
   width: 90%;
 }
 
@@ -106,8 +104,7 @@
   font-size: 15px;
   color: #D1D5DC;
   outline: none;
-  transition: border-color 0.2s;
-
+  transition: 0.2s;
   display: flex;
   padding: 0.5rem 0.75rem;
   align-items: center;
@@ -119,7 +116,8 @@
 }
 
 .form input:focus,
-.form textarea:focus {
+.form textarea:focus,
+.form select:focus {
   border-color: #7C86FF;
 }
 
@@ -128,6 +126,18 @@
   resize: vertical;
 }
 
+.form select {
+    padding: 0.5rem 0.7rem;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 0.8px solid #4A5565;
+    background: #364153;
+    color:#D1D5DC;
+}
+
+.form option {
+    color:#D1D5DC;
+}
 .form button[type="submit"] {
   margin-top: 12px;
   padding: 10px 0;
@@ -147,6 +157,7 @@
 .form button[type="submit"]:hover {
   background: #5a65d6;
 }
+
 
 .AddBookIcon{
   width: 1.25rem;
