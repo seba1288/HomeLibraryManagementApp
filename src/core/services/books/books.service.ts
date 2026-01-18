@@ -44,10 +44,17 @@ async function findOrCreateAuthor(name: string) {
 async function findOrCreateGenre(name: string) {
   const norm = normalizeName(name)
   let { data, error } = await supabase.from('genres').select('id, name').ilike('name', norm).limit(1)
-  if (error) data = null
   if (data && data.length > 0) return data[0].id
+
+  // Try insert
   const insertResp = await supabase.from('genres').insert({ name: norm }).select('id').limit(1)
-  if (insertResp.error) throw insertResp.error
+  if (insertResp.error) {
+     // If error (collision?), try select one last time
+     const retry = await supabase.from('genres').select('id, name').ilike('name', norm).limit(1)
+     if (retry.data && retry.data.length > 0) return retry.data[0].id
+     // If still error, throw original
+     throw insertResp.error
+  }
   return insertResp.data?.[0]?.id
 }
 
