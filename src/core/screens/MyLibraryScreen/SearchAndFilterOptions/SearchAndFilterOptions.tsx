@@ -102,7 +102,7 @@ function SearchAndFilterOptions({ onSortChange, onFilterChange }: { onSortChange
                     </form>
                 </div>
 
-                <div className={styles.filtersAndViewContainer}>
+                <div className={styles.filtersAndSortContainer}>
                     <button
                         className={styles.filterButton}
                         type="button"
@@ -127,7 +127,7 @@ function SearchAndFilterOptions({ onSortChange, onFilterChange }: { onSortChange
                                 <div className={styles.filterGroup}>
                                     <label>Status</label>
                                     <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
-                                        <option value="All Status">All Status</option>
+                                        <option value="All Status" >All Status</option>
                                         <option value="COMPLETED">Completed</option>
                                         <option value="UNREAD">Unread</option>
                                         <option value="READING">Reading</option>

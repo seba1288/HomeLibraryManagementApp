@@ -1,59 +1,57 @@
-/* Overlay panel for filters */
-.filtersPanel {
-    position: absolute;
-    top: 5.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-    padding: 1.5rem 1.5rem 1.2rem 1.5rem;
-    z-index: 100;
-    min-width: 350px;
-    min-height: 120px;
-}
-.filtersTitle {
-    font-size: 1.2rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
-}
-.filtersRow {
-    display: flex;
-    gap: 1.2rem;
-}
-.filterGroup {
-    display: flex;
-    flex-direction: column;
-    min-width: 120px;
-}
-.filterGroup label {
-    font-size: 1rem;
-    color: #4A5565;
-    margin-bottom: 0.5rem;
-}
-.filterGroup select {
-    padding: 0.3rem 0.7rem;
-    border-radius: 8px;
-    border: 1px solid #D1D5DC;
-    font-size: 1rem;
-}
 .SearchAndFiltersBar{
     display: flex;
     width: 100%;
     height: 2.6rem;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 20%;
+    align-items: center;
     flex-shrink: 0;
     box-sizing: border-box; 
     margin-top: 10rem;  
+    gap: 0.75rem;
 }
-.filtersAndViewContainer{
+.filtersAndSortContainer{
     display: flex;
     height: 2.6rem;
     align-items: center;
     gap: 0.5rem;
-    padding-right: 13rem;
+    margin-left: 0.5rem;
+}
+
+.searchContainer{
+    width: 28rem;
+    height: 2.6rem;
+    flex-shrink: 0;
+    display: flex;
+    gap: 0.75rem;        
+    align-items: center;
+    border-radius: 0.5rem;
+    border: 0.8px solid #4A5565;
+    background: #1E2939;
+    
+}
+
+.searchIcon{
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+    
+}
+
+.searchText{
+    flex: 1;            
+    min-width: 0;
+    color: rgba(255, 255, 255, 0.50);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    background: #1E2939;
+    border: none;
+    align-items: center;
+    outline: none;  
+    margin-bottom: 0.5rem;           
+    
 }
 
 .filterButton {
@@ -62,7 +60,7 @@
     gap: 0.4375rem;
     padding: 0.5rem 1.2rem;
     border-radius: 0.5rem;
-    border: 1.5px solid #4A5565;
+    border: 0.8px solid #4A5565;
     background: #1E2939;
     color: #D1D5DC;
     font-size: 1rem;
@@ -108,75 +106,57 @@
 
 }
 
-.cardViewButton{
-    display: flex;
-    width: 2.25rem;
-    height: 2.25rem;
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-    flex-direction: column;
-    align-items: flex-start;
-    border-radius: 0.5rem;
-    background: #312C85;
-    border: none;
-}
 
-.cardViewIcon{
-    height: 1.25rem;
-    flex-shrink: 0;
-    align-self: stretch;
-}
-
-.listViewButton{
-    display: flex;
-    width: 2.35rem;
-    height: 2.35rem;
-    padding: 0.55rem 0.55rem 0.05rem 0.55rem;
-    flex-direction: column;
-    align-items: flex-start;
+.filtersPanel {
+    position: absolute;
+    top: 10rem;
+    left: 50%;
+    transform: translateX(-50%);
     border-radius: 0.5rem;
     border: 0.8px solid #4A5565;
-    background: #1E2939;
+    background: #101828;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 1px 2px -1px rgba(0, 0, 0, 0.10);
+    padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+    z-index: 100;
+    min-width: 350px;
+    min-height: 120px;
 }
-
-.listViewIcon{
-    height: 1.25rem;
-    flex-shrink: 0;
-    align-self: stretch;
+.filtersTitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color:#D1D5DC;
 }
-
-.searchContainer{
-    width: 28rem;
-    height: 1.6rem;
-    flex-shrink: 0;
-
+.filtersRow {
     display: flex;
-    padding: 0.5rem 0rem 0.5rem 2.5rem;
-    align-items: center;
-    border-radius: 0.5rem;
-    border: 0.8px solid #4A5565;
-    background: #1E2939;
-    
+    gap: 1.2rem;
 }
-
-.searchIcon{
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-right: 1rem;
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
 }
-
-.searchText{
-    color: rgba(255, 255, 255, 0.50);
+.filterGroup label {
     font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+    color:#D1D5DC;
+    margin-bottom: 0.5rem;
+}
+.filterGroup select {
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    border: 0.8px solid #364153;
+    font-size: 1rem;
     background: #1E2939;
-    border: none;
-    align-items: center;
-    
+    color:#D1D5DC;
 }
 
-/* Sort By Button & Panel */
+.filterGroup option{
+    color:#D1D5DC;
+}
+
+
+
+
 .sortByButton {
     display: flex;
     align-items: center;
@@ -215,9 +195,10 @@
     top: 10.5rem;
     left: 50%;
     transform: translateX(-50%);
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    border: 0.8px solid #364153;
+    background: #101828;
+    border-radius: 0.625rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 1px 2px -1px rgba(0, 0, 0, 0.10);
     padding: 1.5rem 1.5rem 1.2rem 1.5rem;
     z-index: 100;
     min-width: 250px;
@@ -228,6 +209,7 @@
     font-size: 1.2rem;
     font-weight: 500;
     margin-bottom: 1rem;
+    color:#D1D5DC;
 }
 
 .sortByOptions {
@@ -241,11 +223,15 @@
     flex-direction: column;
 }
 
+.sortOption option, .sortOption select {
+    color:#D1D5DC;
+}
 .sortOption select {
     padding: 0.5rem 0.7rem;
     border-radius: 8px;
-    border: 1px solid #D1D5DC;
-    font-size: 1rem;
-    background: #fff;
     cursor: pointer;
+    border: 0.8px solid #364153;
+    font-size: 1rem;
+    background: #1E2939;
 }
+

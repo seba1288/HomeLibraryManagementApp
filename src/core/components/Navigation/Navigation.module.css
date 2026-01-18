@@ -91,30 +91,3 @@
     background: #232f44;
     border-bottom: 1.6px solid #7C86FF;
 }
-.button3{
-    display: flex;
-    width: 7.56956rem;
-    height: 3.1rem;
-    padding-left: 1rem;
-    align-items: center;
-    gap: 0.5rem;
-    border: 1.6px solid rgba(0, 0, 0, 0.00);
-    background: #1E2939;
-}
-.icon3{
-    width: 1.25rem;
-    height: 1.25rem;
-    flex-shrink: 0;
-}
-.button3text{
-    display: flex;
-    padding-bottom: 0.1375rem;
-    justify-content: center;
-    align-items: center;
-    color: #99A1AF;
-    text-align: center;
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1.5rem; /* 150% */
-}
