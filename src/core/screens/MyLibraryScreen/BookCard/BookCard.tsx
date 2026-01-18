@@ -24,6 +24,7 @@ type Book = {
     title: string;
     authors?: Author[] | string[];
     pages?: number;
+    current_page?: number;
     cover_url?: string;
     [key: string]: any;
 };
@@ -73,7 +74,13 @@ function BookCard({ book, onDelete, onBookUpdated, disableMargins, hideActions, 
                 <div className={styles.pageCounterNumbersBox}>
                     <div className={styles.pageCounterNumbers}>
                         <p className={styles.rowTitle}>Pages:</p>
-                        <p className={styles.pagesNumber}>{book.pages ? `0/${book.pages}` : '0/0'}</p>
+                        <p className={styles.pagesNumber}>{book.pages ? `${book.current_page || 0}/${book.pages}` : '0/0'}</p>
+                    </div>
+                </div>
+                <div className={styles.pageCounterNumbersBox}>
+                    <div className={styles.pageCounterNumbers}>
+                        <p className={styles.rowTitle}>Year:</p>
+                        <p className={styles.pagesNumber}>{book.year_of_publishing || 'Unknown'}</p>
                     </div>
                 </div>
                 {onAdd ? (

@@ -19,7 +19,7 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
   const [genres, setGenres] = useState(book?.genres ? book.genres.map((g: any) => g.name).join(', ') : '');
   const [year, setYear] = useState(book?.year_of_publishing || '');
   const [isbn, setIsbn] = useState(book?.isbn || '');
-  const [pages, setPages] = useState(book?.pages || '');
+  const [currentPage, setCurrentPage] = useState(book?.current_page ?? '');
   const [notes, setNotes] = useState(book?.notes || '');
   const [coverUrl, setCoverUrl] = useState(book?.cover_url || '');
   const [status, setStatus] = useState(book?.status || 'UNREAD');
@@ -56,7 +56,7 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
       setGenres(book?.genres ? book.genres.map((g: any) => g.name).join(', ') : '');
       setYear(book?.year_of_publishing || '');
       setIsbn(book?.isbn || '');
-      setPages(book?.pages || '');
+      setCurrentPage(book?.current_page ?? ''); // Use ?? instead of ||
       setNotes(book?.notes || '');
       setCoverUrl(book?.cover_url || '');
       setStatus(book?.status || 'UNREAD');
@@ -137,7 +137,7 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
   });
 
   if (!isOpen || !book) return null;
-
+//await updateBook(book.book_id || book.id, {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -148,18 +148,49 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
         return author ? getAuthorFullName(author) : '';
       }).filter(Boolean);
 
-      await updateBook(book.book_id || book.id, {
+      const currentPageNum = currentPage !== '' ? Number(currentPage) : null;
+      const pagesNum = book.pages ? Number(book.pages) : null;
+
+      // Validation: current_page cannot be negative
+      if (currentPageNum !== null && currentPageNum < 0) {
+        setError('Current page cannot be negative');
+        setLoading(false);
+        return;
+      }
+
+      // Validation: current_page cannot exceed total pages
+      if (currentPageNum !== null && pagesNum !== null && currentPageNum > pagesNum) {
+        setError(`Current page cannot exceed total pages (${pagesNum})`);
+        setLoading(false);
+        return;
+      }
+
+      let updatedStatus = status;
+
+      // Auto-update status based on current_page
+      if (currentPageNum !== null && currentPageNum > 0) {
+        updatedStatus = 'READING';
+      }
+      
+      // If current_page equals total pages, mark as COMPLETED
+      if (currentPageNum !== null && pagesNum !== null && currentPageNum >= pagesNum) {
+        updatedStatus = 'COMPLETED';
+      }
+
+      const payload = {
         title,
         authors: authorNames,
         genres: genres ? genres.split(',').map(g => g.trim()).filter(Boolean) : [],
         year_of_publishing: year ? Number(year) : null,
         isbn: isbn || null,
-        pages: pages ? Number(pages) : null,
+        current_page: currentPageNum,
         notes: notes || null,
         cover_url: coverUrl || null,
-        status: status || 'UNREAD',
+        status: updatedStatus,
         publisher_id: selectedPublisher || null,
-      });
+      };
+      console.log('Sending payload:', payload);
+      await updateBook(book.book_id || book.id, payload);
       setLoading(false);
       onClose();
       onBookUpdated();
@@ -173,6 +204,8 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
       }
     }
   };
+
+  if (!isOpen || !book) return null;
 
   return (
     <div className={styles.overlay} onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
@@ -358,8 +391,8 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
               {isbnError && <span className={styles.fieldError}>{isbnError}</span>}
             </label>
             <label>
-              Pages
-              <input type="number" value={pages} onChange={e => setPages(e.target.value)} />
+              Current Pages
+              <input type="number" value={currentPage} onChange={e => setCurrentPage(e.target.value)} /> {/* Changed here */}
             </label>
             <label>
               Notes

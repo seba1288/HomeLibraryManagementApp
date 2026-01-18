@@ -25,6 +25,7 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
   const [loading, setLoading] = useState(false);
   const [fetchingCover, setFetchingCover] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [publisher, setPublisher] = useState('');
   const [isbnError, setIsbnError] = useState<string | null>(null);
   
   // Add Author form state
@@ -176,6 +177,7 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
       if (info) {
         if (info.title && !title) setTitle(info.title);
         if (info.publishedDate && !year) setYear(info.publishedDate.split('-')[0]);
+        if (info.publisher && !publisher) setPublisher(info.publisher);
         if (info.pageCount && !pages) setPages(String(info.pageCount));
         if (info.coverUrl && !coverUrl) setCoverUrl(info.coverUrl);
         if (info.isbn && !isbn) setIsbn(info.isbn);
@@ -261,12 +263,13 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
         title,
         authors: authorNames,
         genres: genres ? genres.split(',').map(g => g.trim()).filter(Boolean) : [],
-        year_of_publishing: year ? Number(year) : null,
+        year_of_publishing: year ? Number(year) : null, 
         isbn: isbn || null,
         pages: pages ? Number(pages) : null,
         notes: notes || null,
         cover_url: coverUrl || null,
         publisher_id: selectedPublisher || null,
+        current_page: 0,
       });
       setLoading(false);
       onClose();
@@ -502,7 +505,7 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
               </button>
             </div>
             <label>
-              Pages
+              Number of Pages
               <input type="number" value={pages} onChange={e => setPages(e.target.value)} />
             </label>
             <label>

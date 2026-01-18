@@ -22,6 +22,13 @@ function Navigation({ onAddBookClick, currentView, onViewChange }: NavigationPro
                     </svg>
                     <span className={currentView === 'library' ? styles.button1text : styles.button2text}>My Library</span>
                 </button>
+                <button className={styles.button2} onClick={onAddBookClick}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className={styles.icon2}>
+                        <path d="M4.16675 10H15.8334" stroke="#99A1AF" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M10 4.16666V15.8333" stroke="#99A1AF" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    <span className={styles.button2text}>Add Book</span>
+                </button>
                 <button 
                     className={currentView === 'shelves' ? styles.button1 : styles.button2} 
                     onClick={() => onViewChange('shelves')}
@@ -45,14 +52,14 @@ function Navigation({ onAddBookClick, currentView, onViewChange }: NavigationPro
                     className={currentView === 'import-export' ? styles.button1 : styles.button2} 
                     onClick={() => onViewChange('import-export')}
                 >
-                    <span className={currentView === 'import-export' ? styles.button1text : styles.button2text}>Import/Export</span>
-                </button>
-                <button className={styles.button2} onClick={onAddBookClick}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className={styles.icon2}>
-                        <path d="M4.16675 10H15.8334" stroke="#99A1AF" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M10 4.16666V15.8333" stroke="#99A1AF" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className={currentView === 'import-export' ? styles.icon1 : styles.icon2}>
+                        <path d="M3.333 6.667h8.334" stroke="currentColor" strokeWidth="1.6667" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M9.167 4.167 11.667 6.667 9.167 9.167" stroke="currentColor" strokeWidth="1.6667" strokeLinecap="round" strokeLinejoin="round"/>
+
+                        <path d="M16.667 13.333H8.333" stroke="currentColor" strokeWidth="1.6667" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M10.833 10.833 8.333 13.333 10.833 15.833" stroke="currentColor" strokeWidth="1.6667" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                    <span className={styles.button2text}>Add Book</span>
+                    <span className={currentView === 'import-export' ? styles.button1text : styles.button2text}>Import/Export</span>
                 </button>
             </div>
         </div>

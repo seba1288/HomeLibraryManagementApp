@@ -43,6 +43,7 @@
     width: 1.25rem;
     height: 1.25rem;
     flex-shrink: 0;
+    color: #7C86FF
 }
 .button1text{
    display: flex;
@@ -76,6 +77,7 @@
     width: 1.25rem;
     height: 1.25rem;
     flex-shrink: 0;
+    color: #99A1AF
 }
 .button2text{
     display: flex;
