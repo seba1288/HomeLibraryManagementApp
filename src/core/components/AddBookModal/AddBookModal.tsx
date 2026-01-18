@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react';
 import { createBook } from '../../services/books/books.service';
 import { getAllAuthors, createAuthor, parseAuthorName, getAuthorFullName } from '../../services/authors/authors.service';
 import { getAllPublishers, createPublisher } from '../../services/publishers/publishers.service';
+import { getAllSeries, createSeries } from '../../services/series/series.service';
 import { fetchBookCover, fetchBookInfoFromGoogle } from '../../services/library';
-import type { Author, Publisher } from '../../../interfaces/types';
+import type { Author, Publisher, Series } from '../../../interfaces/types';
 
 type AddBookModalProps = {
   isOpen: boolean;
@@ -45,10 +46,17 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
   const [publisherSearch, setPublisherSearch] = useState('');
   const [addingPublisher, setAddingPublisher] = useState(false);
 
+  // Series state
+  const [selectedSeries, setSelectedSeries] = useState<number | null>(null);
+  const [availableSeries, setAvailableSeries] = useState<Series[]>([]);
+  const [seriesSearch, setSeriesSearch] = useState('');
+  const [addingSeries, setAddingSeries] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
       loadAuthors();
       loadPublishers();
+      loadSeries();
     }
   }, [isOpen]);
 
@@ -67,6 +75,15 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
       setAvailablePublishers(publishers);
     } catch (err) {
       console.error('Failed to load publishers:', err);
+    }
+  };
+
+  const loadSeries = async () => {
+    try {
+      const series = await getAllSeries();
+      setAvailableSeries(series);
+    } catch (err) {
+      console.error('Failed to load series:', err);
     }
   };
 
@@ -133,6 +150,11 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
   const filteredPublishers = availablePublishers.filter(publisher => {
     if (!publisherSearch.trim()) return true;
     return publisher.name.toLowerCase().includes(publisherSearch.toLowerCase());
+  });
+
+  const filteredSeries = availableSeries.filter(series => {
+    if (!seriesSearch.trim()) return true;
+    return series.name.toLowerCase().includes(seriesSearch.toLowerCase());
   });
 
   if (!isOpen) return null;
@@ -269,12 +291,13 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
         notes: notes || null,
         cover_url: coverUrl || null,
         publisher_id: selectedPublisher || null,
+        series_id: selectedSeries || null,
         current_page: 0,
       });
       setLoading(false);
       onClose();
       onBookAdded();
-      setTitle(''); setSelectedAuthors([]); setGenres(''); setYear(''); setIsbn(''); setPages(''); setNotes(''); setCoverUrl(''); setSelectedPublisher(null); setPublisherSearch('');
+      setTitle(''); setSelectedAuthors([]); setGenres(''); setYear(''); setIsbn(''); setPages(''); setNotes(''); setCoverUrl(''); setSelectedPublisher(null); setPublisherSearch(''); setSelectedSeries(null); setSeriesSearch('');
     } catch (err: any) {
       setLoading(false);
       const errorMsg = err?.message || 'Failed to add book';
@@ -480,6 +503,65 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
                     type="button"
                     onClick={() => setSelectedPublisher(null)}
                     className={styles.removePublisher}
+                  >
+                    ×
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Series Section */}
+            <div className={styles.seriesSection}>
+              <span className={styles.seriesLabel}>Series</span>
+              <div className={styles.seriesSearchRow}>
+                <input
+                  type="text"
+                  placeholder="Search or type new series..."
+                  value={seriesSearch}
+                  onChange={e => setSeriesSearch(e.target.value)}
+                  className={styles.seriesSearchInput}
+                />
+                <button
+                  type="button"
+                  className={styles.addSeriesButton}
+                  onClick={async () => {
+                    if (!seriesSearch.trim()) return;
+                    setAddingSeries(true);
+                    try {
+                      const newSer = await createSeries(seriesSearch.trim());
+                      await loadSeries();
+                      setSelectedSeries(newSer.id);
+                      setSeriesSearch('');
+                    } catch (err: any) {
+                      setError(err?.message || 'Failed to add series');
+                    }
+                    setAddingSeries(false);
+                  }}
+                  disabled={addingSeries || !seriesSearch.trim()}
+                  title="Add new series"
+                >
+                  {addingSeries ? '...' : '+'}
+                </button>
+              </div>
+              <select
+                value={selectedSeries || ''}
+                onChange={(e) => setSelectedSeries(e.target.value ? Number(e.target.value) : null)}
+                className={styles.seriesSelect}
+              >
+                <option value="">-- Select Series --</option>
+                {filteredSeries.map(series => (
+                  <option key={series.id} value={series.id}>
+                    {series.name}
+                  </option>
+                ))}
+              </select>
+              {selectedSeries && (
+                <div className={styles.selectedSeries}>
+                  <span>Selected: {availableSeries.find(s => s.id === selectedSeries)?.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedSeries(null)}
+                    className={styles.removeSeries}
                   >
                     ×
                   </button>

@@ -1,6 +1,7 @@
 import styles from "./BookCard.module.css";
 import { useState } from "react";
 import EditBookModal from "../../../components/EditBookModal/EditBookModal";
+import { getAuthorFullName } from "../../../services/authors/authors.service";
 
 // Placeholder cover component
 const PlaceholderCover = ({ title }: { title: string }) => (
@@ -15,7 +16,10 @@ const PlaceholderCover = ({ title }: { title: string }) => (
 
 type Author = {
     first_name?: string;
+    middle_name?: string | null;
     last_name?: string;
+    title?: string | null;
+    alias?: string | null;
     [key: string]: any;
 };
 
@@ -68,7 +72,7 @@ function BookCard({ book, onDelete, onBookUpdated, disableMargins, hideActions, 
                     </div>
                     <div className={styles.authorBox}>
                         <p className={styles.rowTitle}>Author:</p>
-                        <p className={styles.author}>{book.authors && book.authors.length ? book.authors.map((a: Author | string) => typeof a === 'string' ? a : a.first_name || 'Unknown').join(', ') : 'Unknown Author'}</p>
+                        <p className={styles.author}>{book.authors && book.authors.length ? book.authors.map((a: Author | string) => typeof a === 'string' ? a : getAuthorFullName(a)).join(', ') : 'Unknown Author'}</p>
                     </div>
                 </button>
                 <div className={styles.pageCounterNumbersBox}>
