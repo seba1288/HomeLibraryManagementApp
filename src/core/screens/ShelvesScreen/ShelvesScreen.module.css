@@ -1,0 +1,139 @@
+.container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 8.5rem auto 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header h2 {
+    color: #fff;
+    font-size: 24px;
+}
+
+.createButton {
+    background-color: #7C86FF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: #1E222B;
+    padding: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: 1px solid #2D3340;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    border-color: #7C86FF;
+}
+
+.cardTitle {
+    color: #fff;
+    margin: 0 0 8px 0;
+    font-size: 18px;
+}
+
+.cardCount {
+    color: #99A1AF;
+    margin: 0;
+    font-size: 14px;
+}
+
+.deleteButton {
+    margin-top: 16px;
+    background: transparent;
+    border: 1px solid #FF6467;
+    color: #FF6467;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.deleteButton:hover {
+    background-color: rgba(255, 100, 103, 0.1);
+}
+
+.emptyState {
+    text-align: center;
+    color: #99A1AF;
+    padding: 40px;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: #1E222B;
+    padding: 24px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #2D3340;
+}
+
+.modal h3 {
+    margin-top: 0;
+    color: #fff;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #2D3340;
+    background-color: #13161C;
+    color: #fff;
+    margin: 16px 0;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.cancelButton {
+    background: transparent;
+    border: none;
+    color: #99A1AF;
+    cursor: pointer;
+}
+
+.saveButton {
+    background-color: #7C86FF;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
