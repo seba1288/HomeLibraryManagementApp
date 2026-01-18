@@ -7,12 +7,16 @@ import { deleteBook, getBooks } from "../../services/books/books.service.ts";
 
 import React, { useState, useEffect } from "react";
 
-function MyLibraryScreen({ onBookDeleted }: { onBookDeleted: () => void }) {
+type MyLibraryScreenProps = {
+    refreshKey?: number;
+};
+
+function MyLibraryScreen({ refreshKey = 0 }: MyLibraryScreenProps) {
     const [books, setBooks] = useState<any[]>([]);
     const [allBooks, setAllBooks] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [sort, setSort] = useState("date_desc");
-    const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const [localRefresh, setLocalRefresh] = useState(0);
     const [filters, setFilters] = useState({
         status: "All Status",
         genre: "All Genres",
@@ -28,7 +32,7 @@ function MyLibraryScreen({ onBookDeleted }: { onBookDeleted: () => void }) {
             setLoading(false);
         }
         fetchBooks();
-    }, [refreshTrigger]);
+    }, [refreshKey, localRefresh]);
 
     const applyFiltersAndSort = (booksToFilter: any[], sortType: string, currentFilters: any) => {
         let filtered = [...booksToFilter];
@@ -92,8 +96,7 @@ function MyLibraryScreen({ onBookDeleted }: { onBookDeleted: () => void }) {
         if (!window.confirm("Are you sure you want to delete this book?")) return;
         try {
             await deleteBook(bookId);
-            setRefreshTrigger(prev => prev + 1);
-            onBookDeleted();
+            setLocalRefresh(prev => prev + 1);
         } catch (err) {
             alert("Failed to delete book.");
         }
@@ -111,7 +114,7 @@ function MyLibraryScreen({ onBookDeleted }: { onBookDeleted: () => void }) {
                 ) : (
                     <div className={styles.booksGrid}>
                         {books.map((book, idx) => (
-                            <BookCard key={idx} book={book} onDelete={handleDelete} onBookUpdated={() => setRefreshTrigger(prev => prev + 1)} />
+                            <BookCard key={idx} book={book} onDelete={handleDelete} onBookUpdated={() => setLocalRefresh(prev => prev + 1)} />
                         ))}
                     </div>
                 )
