@@ -1,0 +1,125 @@
+.SearchAndFiltersBar{
+    display: flex;
+    width: 100%;
+    height: 2.6rem;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20%;
+    flex-shrink: 0;
+    box-sizing: border-box; 
+    margin-top: 10rem;  
+}
+.filtersAndViewContainer{
+    display: flex;
+    height: 2.6rem;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filterButton{
+    display: flex;
+    padding: 0.4125rem 0rem 0.675rem 1.05rem;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.4375rem;
+    border-radius: 0.5rem;
+    border: 0.8px solid #4A5565;
+    background: #1E2939;
+}
+
+.filterIcon{
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.filterSelect{
+    appearance: none;
+    background: #1E2939;
+    border: 0;
+    outline: none;
+    color: #D1D5DC;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5rem;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.filtersText{
+    color: #D1D5DC;
+    text-align: center;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem; /* 150% */
+
+}
+
+.cardViewButton{
+    display: flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 0.5rem;
+    background: #312C85;
+    border: none;
+}
+
+.cardViewIcon{
+    height: 1.25rem;
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+.listViewButton{
+    display: flex;
+    width: 2.35rem;
+    height: 2.35rem;
+    padding: 0.55rem 0.55rem 0.05rem 0.55rem;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 0.5rem;
+    border: 0.8px solid #4A5565;
+    background: #1E2939;
+}
+
+.listViewIcon{
+    height: 1.25rem;
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+.searchContainer{
+    width: 28rem;
+    height: 1.6rem;
+    flex-shrink: 0;
+
+    display: flex;
+    padding: 0.5rem 0rem 0.5rem 2.5rem;
+    align-items: center;
+    border-radius: 0.5rem;
+    border: 0.8px solid #4A5565;
+    background: #1E2939;
+    
+}
+
+.searchIcon{
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 1rem;
+}
+
+.searchText{
+    color: rgba(255, 255, 255, 0.50);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    background: #1E2939;
+    border: none;
+    align-items: center;
+    
+}

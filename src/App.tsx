@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
+import Header from "./Header/Header.tsx";
+import Navigation from './Navigation/Navigation.tsx';
+import MyLibraryScreen from './MyLibraryScreen/MyLibraryScreen.tsx';
+import AddBookModal from './AddBookModal/AddBookModal.tsx';
+import { getBooks } from './services/books/books.service';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [books, setBooks] = useState([]);
+  const [loadingBooks, setLoadingBooks] = useState(true);
+
+  const fetchBooks = async () => {
+    setLoadingBooks(true);
+    try {
+      const data = await getBooks();
+      setBooks(data);
+    } catch {
+      setBooks([]);
+    }
+    setLoadingBooks(false);
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <Header />
+        <Navigation onAddBookClick={handleOpenModal} />
+        <MyLibraryScreen books={books} loading={loadingBooks} onBookDeleted={fetchBooks} />
+        <AddBookModal isOpen={isModalOpen} onClose={handleCloseModal} onBookAdded={fetchBooks} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
