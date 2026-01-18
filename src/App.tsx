@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import Header from "./Header/Header.tsx";
-import Navigation from './Navigation/Navigation.tsx';
-import MyLibraryScreen from './MyLibraryScreen/MyLibraryScreen.tsx';
-import AddBookModal from './AddBookModal/AddBookModal.tsx';
-import { getBooks } from './services/books/books.service';
+import Header from "./core/components/Header/Header.tsx";
+import Navigation from './core/components/Navigation/Navigation.tsx';
+import MyLibraryScreen from './core/screens/MyLibraryScreen/MyLibraryScreen.tsx';
+import AddBookModal from './core/components/AddBookModal/AddBookModal.tsx';
+import { getBooks } from './core/services/books/books.service.ts';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
