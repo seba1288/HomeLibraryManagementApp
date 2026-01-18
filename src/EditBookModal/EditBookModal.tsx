@@ -1,5 +1,5 @@
 import styles from './EditBookModal.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { updateBook } from '../services/books/books.service';
 
 type EditBookModalProps = {
@@ -21,6 +21,20 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
   const [status, setStatus] = useState(book?.status || 'UNREAD');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (book && isOpen) {
+      setTitle(book?.title || '');
+      setAuthors(book?.authors ? book.authors.map((a: any) => a.first_name).join(', ') : '');
+      setGenres(book?.genres ? book.genres.map((g: any) => g.name).join(', ') : '');
+      setYear(book?.year_of_publishing || '');
+      setIsbn(book?.isbn || '');
+      setPages(book?.pages || '');
+      setNotes(book?.notes || '');
+      setCoverUrl(book?.cover_url || '');
+      setStatus(book?.status || 'UNREAD');
+    }
+  }, [book, isOpen]);
 
   if (!isOpen || !book) return null;
 
