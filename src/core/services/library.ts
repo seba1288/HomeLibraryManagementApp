@@ -111,6 +111,106 @@ export async function recommendBooks(userId: number, limit = 10) {
   return candidates || []
 }
 
+/**
+ * Fetch book cover URL from Google Books API
+ * @param title - Book title
+ * @param author - Optional author name for better matching
+ * @param isbn - Optional ISBN for exact matching (most accurate)
+ * @returns Cover image URL or null if not found
+ */
+export async function fetchBookCover(title: string, author?: string, isbn?: string): Promise<string | null> {
+  try {
+    let query = ''
+    
+    // ISBN is the most accurate way to search
+    if (isbn) {
+      query = `isbn:${isbn}`
+    } else {
+      query = `intitle:${encodeURIComponent(title)}`
+      if (author) {
+        query += `+inauthor:${encodeURIComponent(author)}`
+      }
+    }
+
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`
+    const res = await fetch(url)
+    
+    if (!res.ok) return null
+    
+    const data = await res.json()
+    
+    if (!data.items || data.items.length === 0) return null
+    
+    const book = data.items[0]
+    const imageLinks = book.volumeInfo?.imageLinks
+    
+    if (!imageLinks) return null
+    
+    // Return the best available image (prefer larger sizes)
+    // Replace http with https for security
+    const coverUrl = (
+      imageLinks.extraLarge ||
+      imageLinks.large ||
+      imageLinks.medium ||
+      imageLinks.small ||
+      imageLinks.thumbnail ||
+      imageLinks.smallThumbnail
+    )?.replace('http://', 'https://')
+    
+    return coverUrl || null
+  } catch (err) {
+    console.error('Failed to fetch book cover:', err)
+    return null
+  }
+}
+
+/**
+ * Fetch book info from Google Books API (including cover, description, etc.)
+ */
+export async function fetchBookInfoFromGoogle(title: string, author?: string, isbn?: string) {
+  try {
+    let query = ''
+    
+    if (isbn) {
+      query = `isbn:${isbn}`
+    } else {
+      query = `intitle:${encodeURIComponent(title)}`
+      if (author) {
+        query += `+inauthor:${encodeURIComponent(author)}`
+      }
+    }
+
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`
+    const res = await fetch(url)
+    
+    if (!res.ok) return null
+    
+    const data = await res.json()
+    
+    if (!data.items || data.items.length === 0) return null
+    
+    const book = data.items[0].volumeInfo
+    const imageLinks = book.imageLinks
+    
+    return {
+      title: book.title,
+      authors: book.authors || [],
+      publisher: book.publisher,
+      publishedDate: book.publishedDate,
+      description: book.description,
+      pageCount: book.pageCount,
+      categories: book.categories || [],
+      isbn: book.industryIdentifiers?.find((id: any) => id.type === 'ISBN_13')?.identifier ||
+            book.industryIdentifiers?.find((id: any) => id.type === 'ISBN_10')?.identifier,
+      coverUrl: (imageLinks?.thumbnail || imageLinks?.smallThumbnail)?.replace('http://', 'https://'),
+      coverUrlLarge: (imageLinks?.large || imageLinks?.medium || imageLinks?.thumbnail)?.replace('http://', 'https://'),
+    }
+  } catch (err) {
+    console.error('Failed to fetch book info:', err)
+    return null
+  }
+}
+
 export default {
   addToLibrary,
   updateLibraryEntry,
@@ -119,4 +219,6 @@ export default {
   getUserLibrary,
   getLibraryOverview,
   recommendBooks,
+  fetchBookCover,
+  fetchBookInfoFromGoogle,
 }

@@ -153,3 +153,44 @@
   height: 1.25rem;
   margin-right: 0.75rem;
 }
+
+.fetchButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.fetchButton {
+  flex: 1;
+  padding: 8px 12px;
+  background: #364153;
+  color: #D1D5DC;
+  border: 0.8px solid #4A5565;
+  border-radius: 0.5rem;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fetchButton:hover {
+  background: #4A5565;
+  border-color: #7C86FF;
+}
+
+.fetchButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.coverPreview {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.coverPreview img {
+  max-width: 120px;
+  max-height: 180px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
