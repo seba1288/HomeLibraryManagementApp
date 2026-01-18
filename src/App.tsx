@@ -8,7 +8,7 @@ import { getBooks } from './services/books/books.service';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [loadingBooks, setLoadingBooks] = useState(true);
 
   const fetchBooks = async () => {
