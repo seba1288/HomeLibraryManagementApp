@@ -23,6 +23,9 @@ function App() {
                 <div className={style.welcomeBox} > 
                     <h1 className={style.welcomeSign}>Welcome</h1>
                 </div>
+                <div className={style.welcomeTextBox}>
+                    <p className={style.welcomeText}>Sign in to access your library</p>
+                </div>
                 <button className={style.continueWithGoogleButton}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className={style.googleIcon}>
                         <path d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 10H12V14.26H17.92C17.66 15.63 16.88 16.79 15.71 17.57V20.34H19.28C21.36 18.42 22.56 15.6 22.56 12.25Z" fill="#4285F4"/>
@@ -33,7 +36,38 @@ function App() {
                     <span className={style.continueWithGoogleText}>Continue with google</span>
                 </button>
 
+                <div className={style.SecutreAuthenticationBox}>
+                    <p className={style.SecutreAuthenticationText}>Secure Authenthication</p>
+                </div>
+                <div className={style.infomationsAboutAppBox}>
+                    <div className={style.infomationBox}> 
+                        <div className={style.infomationIconCircle}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" className={style.infomationIcon}>
+                                <path d="M2.5 6.5L4.5 8.5L9.5 3.5" stroke="#05DF72" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <p className={style.infomationText}>Track your reading progress</p>
+                    </div>
+                    <div className={style.infomationBox}>
+                        <div className={style.infomationIconCircle}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" className={style.infomationIcon}>
+                                <path d="M2.5 6.5L4.5 8.5L9.5 3.5" stroke="#05DF72" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>  
+                        </div>
+                        <p className={style.infomationText}>Organize your books by genre, author, and series</p>
+                    </div>
+                    <div className={style.infomationBox}>
+                        <div className={style.infomationIconCircle}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" className={style.infomationIcon}>
+                                <path d="M2.5 6.5L4.5 8.5L9.5 3.5" stroke="#05DF72" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>  
+                        </div>
+                        <p className={style.infomationText}>view reading statistics and insights</p>
+                    </div>
+
+                </div>
             </div>
+            <p className={style.dataStorageText}>Your data is stored locally on your device</p>
         </div>
     </div>
     </>

@@ -1,22 +1,19 @@
 .backgroud{
     display: flex;
-    width: 100%;
-    height: 100%;
+    inset: 0; 
     justify-content: center;
-    align-items: center;
     background: linear-gradient(135deg, #101828 0%, #1E2939 50%, #312C85 100%);
     position: fixed;   /* stays in one place */
     top: 0;
     left: 0;
+    padding-top: 6rem;
 }
 
 .wholeBlock{
     display: flex;
     width: 28rem;
-    height: 38.42425rem;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
     flex-shrink: 0;
 }
 
@@ -50,6 +47,7 @@
     padding: 0 7.18594rem 0rem 7.25156rem;
     justify-content: center;
     align-items: center;
+    margin-top: 1.50rem;
 }
 .pageTitle{
     color: #FFF;
@@ -57,7 +55,7 @@
     font-size: 36px;
     font-style: normal;
     font-weight: 400;
-    line-height: 2.5rem; /* 111.111% */
+    margin: 0;
 }
 
 .pageTitleTextBox{
@@ -65,6 +63,7 @@
     padding: 0 5.54531rem 0rem 5.57969rem;
     justify-content: center;
     align-items: center;
+    margin-top: 0.5rem;
 }
 
 .pageTitleText{
@@ -73,45 +72,58 @@
     font-size: 15px;
     font-style: normal;
     font-weight: 400;
-    line-height: 1.5rem; /* 150% */
+    margin: 0;
 }
 
 
 .googleSignInBox{
-    height: 23.17425rem;
+    padding: 2rem;
     flex-shrink: 0;
     align-self: stretch;
+    margin-top: 3rem;
     border-radius: 1rem;
     border: 0.8px solid #364153;
     background: #1E2939;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.10);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .welcomeBox{
     display: flex;
-    width: 23.9rem;
-    height: 1.99925rem;
-    align-items: flex-start;
     justify-content: center;
-    padding: 2.05rem 2.05rem 2.05rem 2.05rem;
+    align-items: center;
 }
 
 .welcomeSign{
-        color: #FFF;
+    color: #FFF;
     text-align: center;
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
     line-height: 2rem; /* 133.333% */
+    margin: 0;
     
+}
+.welcomeTextBox{
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.5rem; 
+}
+.welcomeText{
+    color: #99A1AF;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
 }
 
 .continueWithGoogleButton{
     display: flex;
-    width: 23.9rem;
+    width: 90%;
     height: 3.2rem;
     padding-right: 0;
-    margin-left: 2rem;
     justify-content: center;
     align-items: center;
     gap: 0.75rem;
@@ -133,4 +145,76 @@
     justify-content: center;
     align-items: center;
     color: #FFF;
+    
+}
+
+.SecutreAuthenticationBox{
+    width: 90%;
+    height: 1.25rem;
+}
+
+.SecutreAuthenticationText{
+    text-align: center; 
+    color: #99A1AF;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.infomationsAboutAppBox{
+    display: flex;
+    width: 90%;
+    height: 5.625rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.infomationBox{
+    display: flex;              
+    align-items: center;        
+    gap: 0.75rem;               
+    align-self: stretch;
+}
+
+.infomationIconCircle{
+    display: flex;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0; 
+    justify-content: center;
+    align-items: center;
+    border-radius: 1677718.75rem;
+    background: rgba(13, 84, 43, 0.30);
+}
+
+.infomationIcon{
+    width: 0.75rem;
+    height: 0.75rem;
+    flex-shrink: 0;
+}
+
+.infomationText{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: #D1D5DC;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    margin: 0;
+}
+
+.dataStorageText{
+    display: flex;
+    padding: 0 6.01019rem 0 6.05231rem;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    color: #99A1AF;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
 }
