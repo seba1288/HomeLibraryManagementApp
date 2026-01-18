@@ -17,10 +17,12 @@ function MyLibraryScreen({ refreshKey = 0 }: MyLibraryScreenProps) {
     const [loading, setLoading] = useState(true);
     const [sort, setSort] = useState("date_desc");
     const [localRefresh, setLocalRefresh] = useState(0);
+    const [searchQuery, setSearchQuery] = useState("");
     const [filters, setFilters] = useState({
         status: "All Status",
         genre: "All Genres",
-        author: "All Authors"
+        author: "All Authors",
+        year: ""
     });
 
     useEffect(() => {
@@ -36,6 +38,18 @@ function MyLibraryScreen({ refreshKey = 0 }: MyLibraryScreenProps) {
 
     const applyFiltersAndSort = (booksToFilter: any[], sortType: string, currentFilters: any) => {
         let filtered = [...booksToFilter];
+
+        // Apply search query
+        if (searchQuery.trim() !== "") {
+            const query = searchQuery.toLowerCase();
+            filtered = filtered.filter((book: any) => {
+                const titleMatch = book.title && book.title.toLowerCase().includes(query);
+                const authorMatch = book.authors && book.authors.some((a: any) => 
+                    a.first_name && a.first_name.toLowerCase().includes(query)
+                );
+                return titleMatch || authorMatch;
+            });
+        }
 
         // Apply filters
         if (currentFilters.status !== "All Status") {
@@ -53,6 +67,10 @@ function MyLibraryScreen({ refreshKey = 0 }: MyLibraryScreenProps) {
             filtered = filtered.filter((book: any) =>
                 book.genres && book.genres.some((g: any) => g.name === currentFilters.genre)
             );
+        }
+        if (currentFilters.year && currentFilters.year !== "") {
+            const yearToFilter = parseInt(currentFilters.year, 10);
+            filtered = filtered.filter((book: any) => book.year_of_publishing === yearToFilter);
         }
 
         // Apply sort
@@ -86,10 +104,14 @@ function MyLibraryScreen({ refreshKey = 0 }: MyLibraryScreenProps) {
 
     useEffect(() => {
         applyFiltersAndSort(allBooks, sort, filters);
-    }, [sort, filters, allBooks]);
+    }, [sort, filters, allBooks, searchQuery]);
 
     const handleFilterChange = useCallback((newFilters: any) => {
         setFilters(newFilters);
+    }, []);
+
+    const handleSearchChange = useCallback((query: string) => {
+        setSearchQuery(query);
     }, []);
 
     const handleDelete = async (bookId: number) => {
@@ -104,7 +126,7 @@ function MyLibraryScreen({ refreshKey = 0 }: MyLibraryScreenProps) {
 
     return (
         <>
-            <SearchAndFilterOptions onSortChange={setSort} onFilterChange={handleFilterChange} />
+            <SearchAndFilterOptions onSortChange={setSort} onFilterChange={handleFilterChange} onSearchChange={handleSearchChange} />
             <BookCount refreshTrigger={refreshKey + localRefresh} />
             {loading ? (
                 <p className={styles.loadingText}>Loading books...</p>

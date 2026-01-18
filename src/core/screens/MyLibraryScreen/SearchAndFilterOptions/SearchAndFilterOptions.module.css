@@ -150,6 +150,36 @@
     color:#D1D5DC;
 }
 
+.filterGroup input.yearInput {
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    border: 0.8px solid #364153;
+    font-size: 1rem;
+    background: #1E2939;
+    color:#D1D5DC;
+}
+
+.filterGroup input.yearInput::placeholder {
+    color: rgba(209, 213, 219, 0.5);
+}
+
+.filterGroup input.yearInput:focus {
+    outline: none;
+    border-color: #A3B3FF;
+    box-shadow: 0 0 0 3px rgba(163, 179, 255, 0.1);
+}
+
+/* Hide number input spinner arrows */
+.filterGroup input.yearInput::-webkit-outer-spin-button,
+.filterGroup input.yearInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.filterGroup input.yearInput[type=number] {
+    -moz-appearance: textfield;
+}
+
 .filterGroup option{
     color:#D1D5DC;
 }

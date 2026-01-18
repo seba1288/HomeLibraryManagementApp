@@ -4,13 +4,15 @@ import styles from "./SearchAndFilterOptions.module.css";
 import { supabase } from "../../../services/supabase"
 
 
-function SearchAndFilterOptions({ onSortChange, onFilterChange }: { onSortChange: (sort: string) => void; onFilterChange?: (filters: any) => void }) {
+function SearchAndFilterOptions({ onSortChange, onFilterChange, onSearchChange }: { onSortChange: (sort: string) => void; onFilterChange?: (filters: any) => void; onSearchChange?: (query: string) => void }) {
     const [showFilters, setShowFilters] = useState(false);
     const [showSortBy, setShowSortBy] = useState(false);
     const [sortBy, setSortBy] = useState("date_desc");
+    const [searchQuery, setSearchQuery] = useState("");
     const [statusFilter, setStatusFilter] = useState("All Status");
     const [genreFilter, setGenreFilter] = useState("All Genres");
     const [authorFilter, setAuthorFilter] = useState("All Authors");
+    const [yearFilter, setYearFilter] = useState("");
     const [authors, setAuthors] = useState<any[]>([]);
     const [genres, setGenres] = useState<any[]>([]);
     const filterPanelRef = useRef<HTMLDivElement>(null);
@@ -80,25 +82,32 @@ function SearchAndFilterOptions({ onSortChange, onFilterChange }: { onSortChange
     }, [sortBy, onSortChange]);
 
     useEffect(() => {
+        if (onSearchChange) {
+            onSearchChange(searchQuery);
+        }
+    }, [searchQuery, onSearchChange]);
+
+    useEffect(() => {
         if (onFilterChange) {
             onFilterChange({
                 status: statusFilter,
                 genre: genreFilter,
-                author: authorFilter
+                author: authorFilter,
+                year: yearFilter
             });
         }
-    }, [statusFilter, genreFilter, authorFilter, onFilterChange]);
+    }, [statusFilter, genreFilter, authorFilter, yearFilter, onFilterChange]);
 
     return (
         <>
             <div className={styles.SearchAndFiltersBar}>
                 <div className={styles.searchContainer}>
-                    <form>
+                    <form onSubmit={e => e.preventDefault()}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className={styles.searchIcon} >
                             <path d="M17.5 17.5L13.8833 13.8833" stroke="#6A7282" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
                             <path d="M9.16667 15.8333C12.8486 15.8333 15.8333 12.8486 15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333Z" stroke="#6A7282" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
-                        <input type="search" placeholder="Search books..." className={styles.searchText}/>
+                        <input type="text" placeholder="Search books..." className={styles.searchText} value={searchQuery} onChange={e => setSearchQuery(e.target.value)}/>
                     </form>
                 </div>
 
@@ -150,6 +159,16 @@ function SearchAndFilterOptions({ onSortChange, onFilterChange }: { onSortChange
                                             <option key={author.id} value={author.first_name}>{author.first_name}</option>
                                         ))}
                                     </select>
+                                </div>
+                                <div className={styles.filterGroup}>
+                                    <label>Year</label>
+                                    <input
+                                        type="number"
+                                        placeholder="Enter year"
+                                        value={yearFilter}
+                                        onChange={e => setYearFilter(e.target.value)}
+                                        className={styles.yearInput}
+                                    />
                                 </div>
                             </div>
                         </div>
