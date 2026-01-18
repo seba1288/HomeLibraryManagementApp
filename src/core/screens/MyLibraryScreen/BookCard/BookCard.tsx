@@ -48,6 +48,14 @@ function BookCard({ book, onDelete, onBookUpdated, disableMargins, hideActions, 
     const [imgError, setImgError] = useState(false);
 
     const hasValidCover = book.cover_url && !imgError;
+    
+    // Calculate progress percentage
+    const progressPercentage = book.pages && book.pages > 0 
+        ? Math.min(Math.round(((book.current_page || 0) / book.pages) * 100), 100)
+        : 0;
+    
+    const circumference = 2 * Math.PI * 18; // radius = 18
+    const strokeDashoffset = circumference - (progressPercentage / 100) * circumference;
 
     return (
         <div className={styles.bookCard} style={disableMargins ? { margin: 0 } : undefined}>
@@ -63,6 +71,39 @@ function BookCard({ book, onDelete, onBookUpdated, disableMargins, hideActions, 
                     ) : (
                         <PlaceholderCover title={book.title} />
                     )}
+                </div>
+                <div className={styles.progressCircleContainer}>
+                    <svg className={styles.progressCircle} width="44" height="44" viewBox="0 0 44 44">
+                        <circle
+                            cx="22"
+                            cy="22"
+                            r="18"
+                            fill="none"
+                            stroke="#364153"
+                            strokeWidth="3"
+                        />
+                        <circle
+                            cx="22"
+                            cy="22"
+                            r="18"
+                            fill="none"
+                            stroke="#5a65d6"
+                            strokeWidth="3"
+                            strokeDasharray={circumference}
+                            strokeDashoffset={strokeDashoffset}
+                            strokeLinecap="round"
+                            className={styles.progressFill}
+                        />
+                        <text
+                            x="22"
+                            y="22"
+                            textAnchor="middle"
+                            dy="0.35em"
+                            className={styles.progressText}
+                        >
+                            {progressPercentage}%
+                        </text>
+                    </svg>
                 </div>
             </button>
             <div className={styles.InformationBox}>
