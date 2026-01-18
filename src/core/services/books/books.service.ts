@@ -1,4 +1,6 @@
 import { supabase } from '../supabase'
+import { findOrCreateAuthor } from '../authors/authors.service'
+import { findOrCreateGenre } from '../genres/genres.service'
 
 type BookInput = {
   title: string
@@ -65,6 +67,15 @@ async function tryInsertBook(payload: Record<string, any>) {
   if (!attempt.error) return attempt
 
   const msg = attempt.error.message || ''
+  
+  // Check for duplicate ISBN error
+  if (msg.toLowerCase().includes('duplicate') && msg.toLowerCase().includes('isbn')) {
+    throw new Error('ISBN_DUPLICATE: A book with this ISBN already exists')
+  }
+  if (msg.toLowerCase().includes('unique') && msg.toLowerCase().includes('isbn')) {
+    throw new Error('ISBN_DUPLICATE: A book with this ISBN already exists')
+  }
+  
   // detect unknown column or column does not exist
   if (msg.toLowerCase().includes('column') || msg.toLowerCase().includes('does not exist')) {
     const cleaned = { ...payload }
@@ -166,7 +177,14 @@ export async function updateBook(bookId: number, input: Partial<BookInput>) {
 
   if (Object.keys(payload).length) {
     const { error } = await supabase.from('books').update(payload).eq('id', bookId)
-    if (error && !(error.message || '').toLowerCase().includes('column')) throw error
+    if (error) {
+      const msg = error.message || ''
+      // Check for duplicate ISBN error
+      if ((msg.toLowerCase().includes('duplicate') || msg.toLowerCase().includes('unique')) && msg.toLowerCase().includes('isbn')) {
+        throw new Error('ISBN_DUPLICATE: A book with this ISBN already exists')
+      }
+      if (!(msg.toLowerCase().includes('column'))) throw error
+    }
   }
 
   // sync authors
@@ -295,5 +313,4 @@ export default {
   getBooks,
   getBookById,
   fetchIsbnFromOpenLibrary,
-  
 }

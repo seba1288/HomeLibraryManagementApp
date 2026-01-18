@@ -1,7 +1,10 @@
 import styles from './AddBookModal.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createBook } from '../../services/books/books.service';
+import { getAllAuthors, createAuthor, parseAuthorName, getAuthorFullName } from '../../services/authors/authors.service';
+import { getAllPublishers, createPublisher } from '../../services/publishers/publishers.service';
 import { fetchBookCover, fetchBookInfoFromGoogle } from '../../services/library';
+import type { Author, Publisher } from '../../../interfaces/types';
 
 type AddBookModalProps = {
   isOpen: boolean;
@@ -11,7 +14,8 @@ type AddBookModalProps = {
 
 function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
   const [title, setTitle] = useState('');
-  const [authors, setAuthors] = useState('');
+  const [selectedAuthors, setSelectedAuthors] = useState<number[]>([]);
+  const [availableAuthors, setAvailableAuthors] = useState<Author[]>([]);
   const [genres, setGenres] = useState('');
   const [year, setYear] = useState('');
   const [isbn, setIsbn] = useState('');
@@ -21,6 +25,114 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
   const [loading, setLoading] = useState(false);
   const [fetchingCover, setFetchingCover] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isbnError, setIsbnError] = useState<string | null>(null);
+  
+  // Add Author form state
+  const [showAddAuthor, setShowAddAuthor] = useState(false);
+  const [newAuthorFirstName, setNewAuthorFirstName] = useState('');
+  const [newAuthorMiddleName, setNewAuthorMiddleName] = useState('');
+  const [newAuthorLastName, setNewAuthorLastName] = useState('');
+  const [newAuthorAlias, setNewAuthorAlias] = useState('');
+  const [newAuthorMonastery, setNewAuthorMonastery] = useState('');
+  const [newAuthorTitle, setNewAuthorTitle] = useState('');
+  const [addingAuthor, setAddingAuthor] = useState(false);
+  const [authorSearch, setAuthorSearch] = useState('');
+
+  // Publisher state
+  const [selectedPublisher, setSelectedPublisher] = useState<number | null>(null);
+  const [availablePublishers, setAvailablePublishers] = useState<Publisher[]>([]);
+  const [publisherSearch, setPublisherSearch] = useState('');
+  const [addingPublisher, setAddingPublisher] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      loadAuthors();
+      loadPublishers();
+    }
+  }, [isOpen]);
+
+  const loadAuthors = async () => {
+    try {
+      const authors = await getAllAuthors();
+      setAvailableAuthors(authors);
+    } catch (err) {
+      console.error('Failed to load authors:', err);
+    }
+  };
+
+  const loadPublishers = async () => {
+    try {
+      const publishers = await getAllPublishers();
+      setAvailablePublishers(publishers);
+    } catch (err) {
+      console.error('Failed to load publishers:', err);
+    }
+  };
+
+  const handleAddPublisher = async () => {
+    if (!publisherSearch.trim()) {
+      setError('Publisher name is required');
+      return;
+    }
+    setAddingPublisher(true);
+    setError(null);
+    try {
+      const newPublisher = await createPublisher(publisherSearch.trim());
+      await loadPublishers();
+      setSelectedPublisher(newPublisher.id);
+      setPublisherSearch('');
+    } catch (err: any) {
+      setError(err?.message || 'Failed to add publisher');
+    }
+    setAddingPublisher(false);
+  };
+
+  const handleAddAuthor = async () => {
+    if (!newAuthorFirstName.trim()) {
+      setError('Author first name is required');
+      return;
+    }
+    setAddingAuthor(true);
+    setError(null);
+    try {
+      const newAuthor = await createAuthor({
+        first_name: newAuthorFirstName.trim(),
+        middle_name: newAuthorMiddleName.trim() || null,
+        last_name: newAuthorLastName.trim() || null,
+        alias: newAuthorAlias.trim() || null,
+        monastery: newAuthorMonastery.trim() || null,
+        title: newAuthorTitle.trim() || null,
+      });
+      await loadAuthors();
+      setSelectedAuthors([...selectedAuthors, newAuthor.id]);
+      setNewAuthorFirstName('');
+      setNewAuthorMiddleName('');
+      setNewAuthorLastName('');
+      setNewAuthorAlias('');
+      setNewAuthorMonastery('');
+      setNewAuthorTitle('');
+      setShowAddAuthor(false);
+    } catch (err: any) {
+      setError(err?.message || 'Failed to add author');
+    }
+    setAddingAuthor(false);
+  };
+
+  const getAuthorDisplayName = (author: Author) => {
+    return getAuthorFullName(author);
+  };
+
+  const filteredAuthors = availableAuthors.filter(author => {
+    if (!authorSearch.trim()) return true;
+    const searchLower = authorSearch.toLowerCase();
+    const displayName = getAuthorDisplayName(author).toLowerCase();
+    return displayName.includes(searchLower);
+  });
+
+  const filteredPublishers = availablePublishers.filter(publisher => {
+    if (!publisherSearch.trim()) return true;
+    return publisher.name.toLowerCase().includes(publisherSearch.toLowerCase());
+  });
 
   if (!isOpen) return null;
 
@@ -32,7 +144,11 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
     setFetchingCover(true);
     setError(null);
     try {
-      const cover = await fetchBookCover(title, authors.split(',')[0]?.trim(), isbn);
+      const selectedAuthorNames = selectedAuthors.map(id => {
+        const author = availableAuthors.find(a => a.id === id);
+        return author ? getAuthorFullName(author) : '';
+      });
+      const cover = await fetchBookCover(title, selectedAuthorNames[0] || '', isbn);
       if (cover) {
         setCoverUrl(cover);
       } else {
@@ -52,15 +168,76 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
     setFetchingCover(true);
     setError(null);
     try {
-      const info = await fetchBookInfoFromGoogle(title, authors.split(',')[0]?.trim(), isbn);
+      const selectedAuthorNames = selectedAuthors.map(id => {
+        const author = availableAuthors.find(a => a.id === id);
+        return author ? getAuthorFullName(author) : '';
+      });
+      const info = await fetchBookInfoFromGoogle(title, selectedAuthorNames[0] || '', isbn);
       if (info) {
         if (info.title && !title) setTitle(info.title);
-        if (info.authors?.length && !authors) setAuthors(info.authors.join(', '));
         if (info.publishedDate && !year) setYear(info.publishedDate.split('-')[0]);
         if (info.pageCount && !pages) setPages(String(info.pageCount));
         if (info.coverUrl && !coverUrl) setCoverUrl(info.coverUrl);
         if (info.isbn && !isbn) setIsbn(info.isbn);
         if (info.categories?.length && !genres) setGenres(info.categories.join(', '));
+        
+        // Handle authors from Google - create them if they don't exist and select them
+        if (info.authors?.length && selectedAuthors.length === 0) {
+          const newSelectedAuthors: number[] = [];
+          for (const authorName of info.authors) {
+            // Check if author already exists (by full name match)
+            const existingAuthor = availableAuthors.find(
+              a => getAuthorFullName(a).toLowerCase() === authorName.toLowerCase()
+            );
+            if (existingAuthor) {
+              // Only add if not already in the list
+              if (!newSelectedAuthors.includes(existingAuthor.id)) {
+                newSelectedAuthors.push(existingAuthor.id);
+              }
+            } else {
+              // Create new author - parse the full name into parts
+              try {
+                const nameParts = parseAuthorName(authorName);
+                const newAuthor = await createAuthor({
+                  first_name: nameParts.first_name,
+                  middle_name: nameParts.middle_name,
+                  last_name: nameParts.last_name,
+                });
+                if (!newSelectedAuthors.includes(newAuthor.id)) {
+                  newSelectedAuthors.push(newAuthor.id);
+                }
+              } catch {
+                // If creation fails, skip this author
+                console.error('Failed to create author:', authorName);
+              }
+            }
+          }
+          if (newSelectedAuthors.length > 0) {
+            await loadAuthors(); // Reload authors list
+            // Use unique IDs only
+            setSelectedAuthors([...new Set(newSelectedAuthors)]);
+          }
+        }
+
+        // Handle publisher from Google - create if doesn't exist and select it
+        if (info.publisher && !selectedPublisher) {
+          // Check if publisher already exists
+          const existingPublisher = availablePublishers.find(
+            p => p.name.toLowerCase() === info.publisher.toLowerCase()
+          );
+          if (existingPublisher) {
+            setSelectedPublisher(existingPublisher.id);
+          } else {
+            // Create new publisher
+            try {
+              const newPub = await createPublisher(info.publisher);
+              await loadPublishers();
+              setSelectedPublisher(newPub.id);
+            } catch {
+              console.error('Failed to create publisher:', info.publisher);
+            }
+          }
+        }
       } else {
         setError('No book info found');
       }
@@ -75,23 +252,34 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
     setLoading(true);
     setError(null);
     try {
+      const authorNames = selectedAuthors.map(id => {
+        const author = availableAuthors.find(a => a.id === id);
+        return author ? getAuthorFullName(author) : '';
+      }).filter(Boolean);
+      
       await createBook({
         title,
-        authors: authors ? authors.split(',').map(a => a.trim()).filter(Boolean) : [],
+        authors: authorNames,
         genres: genres ? genres.split(',').map(g => g.trim()).filter(Boolean) : [],
         year_of_publishing: year ? Number(year) : null,
         isbn: isbn || null,
         pages: pages ? Number(pages) : null,
         notes: notes || null,
         cover_url: coverUrl || null,
+        publisher_id: selectedPublisher || null,
       });
       setLoading(false);
       onClose();
       onBookAdded();
-      setTitle(''); setAuthors(''); setGenres(''); setYear(''); setIsbn(''); setPages(''); setNotes(''); setCoverUrl('');
+      setTitle(''); setSelectedAuthors([]); setGenres(''); setYear(''); setIsbn(''); setPages(''); setNotes(''); setCoverUrl(''); setSelectedPublisher(null); setPublisherSearch('');
     } catch (err: any) {
       setLoading(false);
-      setError(err?.message || 'Failed to add book');
+      const errorMsg = err?.message || 'Failed to add book';
+      if (errorMsg.startsWith('ISBN_DUPLICATE:')) {
+        setIsbnError('A book with this ISBN already exists');
+      } else {
+        setError(errorMsg);
+      }
     }
   };
 
@@ -110,28 +298,207 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
               Title*
               <input type="text" value={title} onChange={e => setTitle(e.target.value)} required />
             </label>
-            <label>
-              Authors (comma separated)
-              <input type="text" value={authors} onChange={e => setAuthors(e.target.value)} />
-            </label>
+            
+            {/* Add Author Form - Above dropdown */}
+            {showAddAuthor && (
+              <div className={styles.addAuthorForm}>
+                <h4>Add New Author</h4>
+                <div className={styles.authorFields}>
+                  <input
+                    type="text"
+                    placeholder="First Name *"
+                    value={newAuthorFirstName}
+                    onChange={e => setNewAuthorFirstName(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Middle Name"
+                    value={newAuthorMiddleName}
+                    onChange={e => setNewAuthorMiddleName(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={newAuthorLastName}
+                    onChange={e => setNewAuthorLastName(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Alias"
+                    value={newAuthorAlias}
+                    onChange={e => setNewAuthorAlias(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Monastery"
+                    value={newAuthorMonastery}
+                    onChange={e => setNewAuthorMonastery(e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Title (e.g., Dr., Fr.)"
+                    value={newAuthorTitle}
+                    onChange={e => setNewAuthorTitle(e.target.value)}
+                  />
+                </div>
+                <button
+                  type="button"
+                  className={styles.saveAuthorButton}
+                  onClick={handleAddAuthor}
+                  disabled={addingAuthor}
+                >
+                  {addingAuthor ? 'Adding...' : 'Save Author'}
+                </button>
+              </div>
+            )}
+
+            {/* Authors Section */}
+            <div className={styles.authorSection}>
+              <div className={styles.authorHeader}>
+                <span>Authors</span>
+                <button 
+                  type="button" 
+                  className={styles.addAuthorButton}
+                  onClick={() => setShowAddAuthor(!showAddAuthor)}
+                >
+                  {showAddAuthor ? 'Cancel' : '+ Add Author'}
+                </button>
+              </div>
+              
+              {/* Search Input */}
+              <input
+                type="text"
+                placeholder="Search authors..."
+                value={authorSearch}
+                onChange={e => setAuthorSearch(e.target.value)}
+                className={styles.authorSearchInput}
+              />
+              
+              <select
+                multiple
+                value={selectedAuthors.map(String)}
+                onChange={(e) => {
+                  const clickedValues = Array.from(e.target.selectedOptions, option => Number(option.value));
+                  // Merge with existing selections - add new ones, keep existing ones
+                  const newSelection = [...selectedAuthors];
+                  for (const val of clickedValues) {
+                    if (!newSelection.includes(val)) {
+                      newSelection.push(val);
+                    }
+                  }
+                  setSelectedAuthors(newSelection);
+                }}
+                className={styles.authorSelect}
+              >
+                {filteredAuthors.map(author => (
+                  <option key={author.id} value={author.id}>
+                    {getAuthorDisplayName(author)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Selected Authors Display */}
+            {selectedAuthors.length > 0 && (
+              <div className={styles.selectedAuthors}>
+                <span>Selected: </span>
+                {selectedAuthors.map(id => {
+                  const author = availableAuthors.find(a => a.id === id);
+                  return author ? (
+                    <span key={id} className={styles.authorTag}>
+                      {getAuthorDisplayName(author)}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedAuthors(selectedAuthors.filter(a => a !== id))}
+                        className={styles.removeAuthor}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ) : null;
+                })}
+              </div>
+            )}
+
             <label>
               Genres (comma separated)
               <input type="text" value={genres} onChange={e => setGenres(e.target.value)} />
             </label>
+
+            {/* Publisher Section */}
+            <div className={styles.publisherSection}>
+              <span className={styles.publisherLabel}>Publisher</span>
+              <div className={styles.publisherSearchRow}>
+                <input
+                  type="text"
+                  placeholder="Search or type new publisher..."
+                  value={publisherSearch}
+                  onChange={e => setPublisherSearch(e.target.value)}
+                  className={styles.publisherSearchInput}
+                />
+                <button
+                  type="button"
+                  className={styles.addPublisherButton}
+                  onClick={async () => {
+                    if (!publisherSearch.trim()) return;
+                    setAddingPublisher(true);
+                    try {
+                      const newPub = await createPublisher(publisherSearch.trim());
+                      await loadPublishers();
+                      setSelectedPublisher(newPub.id);
+                      setPublisherSearch('');
+                    } catch (err: any) {
+                      setError(err?.message || 'Failed to add publisher');
+                    }
+                    setAddingPublisher(false);
+                  }}
+                  disabled={addingPublisher || !publisherSearch.trim()}
+                  title="Add new publisher"
+                >
+                  {addingPublisher ? '...' : '+'}
+                </button>
+              </div>
+              <select
+                value={selectedPublisher || ''}
+                onChange={(e) => setSelectedPublisher(e.target.value ? Number(e.target.value) : null)}
+                className={styles.publisherSelect}
+              >
+                <option value="">-- Select Publisher --</option>
+                {filteredPublishers.map(publisher => (
+                  <option key={publisher.id} value={publisher.id}>
+                    {publisher.name}
+                  </option>
+                ))}
+              </select>
+              {selectedPublisher && (
+                <div className={styles.selectedPublisher}>
+                  <span>Selected: {availablePublishers.find(p => p.id === selectedPublisher)?.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPublisher(null)}
+                    className={styles.removePublisher}
+                  >
+                    ×
+                  </button>
+                </div>
+              )}
+            </div>
+
             <label>
               Year of Publishing
               <input type="number" value={year} onChange={e => setYear(e.target.value)} />
             </label>
             <label>
               ISBN
-              <input type="text" value={isbn} onChange={e => setIsbn(e.target.value)} placeholder="e.g. 9780743273565" />
+              <input type="text" value={isbn} onChange={e => { setIsbn(e.target.value); setIsbnError(null); }} placeholder="e.g. 9780743273565" />
+              {isbnError && <span className={styles.fieldError}>{isbnError}</span>}
             </label>
             <div className={styles.fetchButtons}>
               <button type="button" onClick={handleFetchCover} disabled={fetchingCover} className={styles.fetchButton}>
-                {fetchingCover ? 'Fetching...' : '🔍 Fetch Cover'}
+                {fetchingCover ? 'Fetching...' : 'Fetch Cover'}
               </button>
               <button type="button" onClick={handleAutoFill} disabled={fetchingCover} className={styles.fetchButton}>
-                {fetchingCover ? 'Fetching...' : '✨ Auto-Fill from Google'}
+                {fetchingCover ? 'Fetching...' : 'Auto-Fill from Google'}
               </button>
             </div>
             <label>

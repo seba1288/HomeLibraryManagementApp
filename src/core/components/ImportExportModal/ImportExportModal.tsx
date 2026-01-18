@@ -163,13 +163,13 @@ function ImportExportModal({ isOpen, onClose, onImportComplete }: ImportExportMo
             className={`${styles.tab} ${activeTab === 'export' ? styles.activeTab : ''}`}
             onClick={() => setActiveTab('export')}
           >
-            📤 Export
+            Export
           </button>
           <button 
             className={`${styles.tab} ${activeTab === 'import' ? styles.activeTab : ''}`}
             onClick={() => setActiveTab('import')}
           >
-            📥 Import
+            Import
           </button>
         </div>
 
