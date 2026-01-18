@@ -1,3 +1,42 @@
+/* Overlay panel for filters */
+.filtersPanel {
+    position: absolute;
+    top: 5.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+    z-index: 100;
+    min-width: 350px;
+    min-height: 120px;
+}
+.filtersTitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+.filtersRow {
+    display: flex;
+    gap: 1.2rem;
+}
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+}
+.filterGroup label {
+    font-size: 1rem;
+    color: #4A5565;
+    margin-bottom: 0.5rem;
+}
+.filterGroup select {
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    border: 1px solid #D1D5DC;
+    font-size: 1rem;
+}
 .SearchAndFiltersBar{
     display: flex;
     width: 100%;
@@ -17,15 +56,27 @@
     padding-right: 13rem;
 }
 
-.filterButton{
+.filterButton {
     display: flex;
-    padding: 0.4125rem 0rem 0.675rem 1.05rem;
-    justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     gap: 0.4375rem;
+    padding: 0.5rem 1.2rem;
     border-radius: 0.5rem;
-    border: 0.8px solid #4A5565;
+    border: 1.5px solid #4A5565;
     background: #1E2939;
+    color: #D1D5DC;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: background 0.15s, border 0.15s, box-shadow 0.15s, color 0.15s;
+    outline: none;
+}
+.filterButton:hover, .filterButton:focus {
+    background: #25304a;
+    border-color: #A3B3FF;
+    color: #A3B3FF;
+    box-shadow: 0 2px 8px rgba(163,179,255,0.12);
 }
 
 .filterIcon{
@@ -123,4 +174,78 @@
     border: none;
     align-items: center;
     
+}
+
+/* Sort By Button & Panel */
+.sortByButton {
+    display: flex;
+    align-items: center;
+    gap: 0.4375rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 0.5rem;
+    border: 1.5px solid #4A5565;
+    background: #1E2939;
+    color: #D1D5DC;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: background 0.15s, border 0.15s, box-shadow 0.15s, color 0.15s;
+    outline: none;
+}
+
+.sortByButton:hover, .sortByButton:focus {
+    background: #25304a;
+    border-color: #A3B3FF;
+    color: #A3B3FF;
+    box-shadow: 0 2px 8px rgba(163,179,255,0.12);
+}
+
+.sortByText {
+    color: #D1D5DC;
+    text-align: center;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+.sortByPanel {
+    position: absolute;
+    top: 10.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+    z-index: 100;
+    min-width: 250px;
+    min-height: 100px;
+}
+
+.sortByTitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.sortByOptions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sortOption {
+    display: flex;
+    flex-direction: column;
+}
+
+.sortOption select {
+    padding: 0.5rem 0.7rem;
+    border-radius: 8px;
+    border: 1px solid #D1D5DC;
+    font-size: 1rem;
+    background: #fff;
+    cursor: pointer;
 }

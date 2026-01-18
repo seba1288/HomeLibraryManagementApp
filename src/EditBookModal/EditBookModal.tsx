@@ -1,5 +1,5 @@
 import styles from './EditBookModal.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { updateBook } from '../services/books/books.service';
 
 type EditBookModalProps = {
@@ -18,8 +18,23 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
   const [pages, setPages] = useState(book?.pages || '');
   const [notes, setNotes] = useState(book?.notes || '');
   const [coverUrl, setCoverUrl] = useState(book?.cover_url || '');
+  const [status, setStatus] = useState(book?.status || 'UNREAD');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (book && isOpen) {
+      setTitle(book?.title || '');
+      setAuthors(book?.authors ? book.authors.map((a: any) => a.first_name).join(', ') : '');
+      setGenres(book?.genres ? book.genres.map((g: any) => g.name).join(', ') : '');
+      setYear(book?.year_of_publishing || '');
+      setIsbn(book?.isbn || '');
+      setPages(book?.pages || '');
+      setNotes(book?.notes || '');
+      setCoverUrl(book?.cover_url || '');
+      setStatus(book?.status || 'UNREAD');
+    }
+  }, [book, isOpen]);
 
   if (!isOpen || !book) return null;
 
@@ -37,6 +52,7 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
         pages: pages ? Number(pages) : null,
         notes: notes || null,
         cover_url: coverUrl || null,
+        status: status || 'UNREAD',
       });
       setLoading(false);
       onClose();
@@ -87,6 +103,14 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
             <label>
               Cover URL
               <input type="text" value={coverUrl} onChange={e => setCoverUrl(e.target.value)} />
+            </label>
+            <label>
+              Status
+              <select value={status} onChange={e => setStatus(e.target.value)}>
+                <option value="UNREAD">Unread</option>
+                <option value="READING">Reading</option>
+                <option value="COMPLETED">Completed</option>
+              </select>
             </label>
             <button type="submit" disabled={loading}>
               {loading ? 'Saving...' : 'Save Changes'}

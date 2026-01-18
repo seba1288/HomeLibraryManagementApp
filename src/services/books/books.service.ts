@@ -12,6 +12,7 @@ type BookInput = {
   publisher_id?: number | null
   series_id?: number | null
   category_id?: number | null
+  status?: string | null
 }
 
 type BookRecord = any
@@ -157,6 +158,7 @@ export async function updateBook(bookId: number, input: Partial<BookInput>) {
   if (input.category_id !== undefined) payload.category_id = input.category_id
   if (input.isbn !== undefined) payload.isbn = input.isbn
   if (input.pages !== undefined) payload.pages = input.pages
+  if (input.status !== undefined) payload.status = input.status
 
   if (Object.keys(payload).length) {
     const { error } = await supabase.from('books').update(payload).eq('id', bookId)
