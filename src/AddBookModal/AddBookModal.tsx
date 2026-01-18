@@ -1,7 +1,6 @@
 import styles from './AddBookModal.module.css';
 import { useState } from 'react';
-import { createBook } from '../../services/books/books.service';
-import { fetchBookCover, fetchBookInfoFromGoogle } from '../../services/library';
+import { createBook } from '../services/books/books.service';
 
 type AddBookModalProps = {
   isOpen: boolean;
@@ -19,56 +18,9 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
   const [notes, setNotes] = useState('');
   const [coverUrl, setCoverUrl] = useState('');
   const [loading, setLoading] = useState(false);
-  const [fetchingCover, setFetchingCover] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
-
-  const handleFetchCover = async () => {
-    if (!title && !isbn) {
-      setError('Enter a title or ISBN to fetch cover');
-      return;
-    }
-    setFetchingCover(true);
-    setError(null);
-    try {
-      const cover = await fetchBookCover(title, authors.split(',')[0]?.trim(), isbn);
-      if (cover) {
-        setCoverUrl(cover);
-      } else {
-        setError('No cover found for this book');
-      }
-    } catch {
-      setError('Failed to fetch cover');
-    }
-    setFetchingCover(false);
-  };
-
-  const handleAutoFill = async () => {
-    if (!title && !isbn) {
-      setError('Enter a title or ISBN to auto-fill');
-      return;
-    }
-    setFetchingCover(true);
-    setError(null);
-    try {
-      const info = await fetchBookInfoFromGoogle(title, authors.split(',')[0]?.trim(), isbn);
-      if (info) {
-        if (info.title && !title) setTitle(info.title);
-        if (info.authors?.length && !authors) setAuthors(info.authors.join(', '));
-        if (info.publishedDate && !year) setYear(info.publishedDate.split('-')[0]);
-        if (info.pageCount && !pages) setPages(String(info.pageCount));
-        if (info.coverUrl && !coverUrl) setCoverUrl(info.coverUrl);
-        if (info.isbn && !isbn) setIsbn(info.isbn);
-        if (info.categories?.length && !genres) setGenres(info.categories.join(', '));
-      } else {
-        setError('No book info found');
-      }
-    } catch {
-      setError('Failed to fetch book info');
-    }
-    setFetchingCover(false);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -124,16 +76,8 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
             </label>
             <label>
               ISBN
-              <input type="text" value={isbn} onChange={e => setIsbn(e.target.value)} placeholder="e.g. 9780743273565" />
+              <input type="text" value={isbn} onChange={e => setIsbn(e.target.value)} />
             </label>
-            <div className={styles.fetchButtons}>
-              <button type="button" onClick={handleFetchCover} disabled={fetchingCover} className={styles.fetchButton}>
-                {fetchingCover ? 'Fetching...' : '🔍 Fetch Cover'}
-              </button>
-              <button type="button" onClick={handleAutoFill} disabled={fetchingCover} className={styles.fetchButton}>
-                {fetchingCover ? 'Fetching...' : '✨ Auto-Fill from Google'}
-              </button>
-            </div>
             <label>
               Pages
               <input type="number" value={pages} onChange={e => setPages(e.target.value)} />
@@ -144,13 +88,8 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
             </label>
             <label>
               Cover URL
-              <input type="text" value={coverUrl} onChange={e => setCoverUrl(e.target.value)} placeholder="Auto-filled or enter manually" />
+              <input type="text" value={coverUrl} onChange={e => setCoverUrl(e.target.value)} />
             </label>
-            {coverUrl && (
-              <div className={styles.coverPreview}>
-                <img src={coverUrl} alt="Book cover preview" />
-              </div>
-            )}
             <button type="submit" disabled={loading}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className={styles.AddBookIcon}>
                 <path d="M12.6667 2.5C13.1063 2.50626 13.5256 2.68598 13.8333 3L17 6.16667C17.314 6.47438 17.4937 6.89372 17.5 7.33333V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V4.16667C2.5 3.72464 2.67559 3.30072 2.98816 2.98816C3.30072 2.67559 3.72464 2.5 4.16667 2.5H12.6667Z" stroke="white" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
