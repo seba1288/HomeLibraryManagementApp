@@ -59,7 +59,15 @@ function analyzeUserLibrary(books: any[]) {
         // Count authors
         if (book.authors && Array.isArray(book.authors)) {
             book.authors.forEach((a: any) => {
-                const name = typeof a === 'string' ? a : a.first_name;
+                let name: string;
+                if (typeof a === 'string') {
+                    name = a;
+                } else if (a.first_name) {
+                    // Construct full name from first_name and last_name
+                    name = a.last_name ? `${a.first_name} ${a.last_name}` : a.first_name;
+                } else {
+                    return;
+                }
                 if (name) {
                     const key = normalize(name);
                     authorCounts[key] = (authorCounts[key] || 0) + 1;

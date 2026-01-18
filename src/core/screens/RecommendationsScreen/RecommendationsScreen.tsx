@@ -32,14 +32,15 @@ function RecommendationsScreen() {
         try {
             await createBook({
                 title: book.title,
-                authors: book.authors.map((a: any) => a.first_name),
+                authors: book.authors.map((a: any) => typeof a === 'string' ? a : a.first_name),
                 cover_url: book.cover_url,
                 pages: book.pageCount,
                 year_of_publishing: book.publishedDate ? parseInt(book.publishedDate.split('-')[0]) : null,
                 notes: null,
                 status: 'UNREAD',
                 isbn: book.isbn,
-                genres: book.genres
+                genres: book.genres,
+                current_page: 0
             });
             alert(`Added "${book.title}" to your library!`);
             // Refresh recommendations to remove the added book? Or just leave it.
