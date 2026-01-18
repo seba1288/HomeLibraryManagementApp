@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../../services/supabase";
 import styles from "./BookCount.module.css";
 
-function MyLibraryScreen() {
+type BookCountProps = {
+    refreshTrigger?: number;
+};
+
+function BookCount({ refreshTrigger = 0 }: BookCountProps) {
     const [counts, setCounts] = useState({
         total: 0,
         reading: 0,
@@ -20,13 +24,13 @@ function MyLibraryScreen() {
             const { count: readingCount } = await supabase
                 .from('books')
                 .select('*', { count: 'exact', head: true })
-                .eq('reading_status', 'reading');
+                .eq('status', 'READING');
 
             // Fetch completed
             const { count: completedCount } = await supabase
                 .from('books')
                 .select('*', { count: 'exact', head: true })
-                .eq('reading_status', 'completed');
+                .eq('status', 'COMPLETED');
 
             setCounts({
                 total: totalCount || 0,
@@ -36,7 +40,7 @@ function MyLibraryScreen() {
         };
 
         fetchCounts();
-    }, []);
+    }, [refreshTrigger]);
 
     return (
         <>
@@ -74,4 +78,4 @@ function MyLibraryScreen() {
     );
 }
 
-export default MyLibraryScreen;
+export default BookCount;
