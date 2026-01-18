@@ -1,0 +1,182 @@
+.container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 8.5rem auto 0;
+}
+
+.backButton {
+    background: none;
+    border: none;
+    color: #99A1AF;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 14px;
+    padding: 0;
+}
+
+.backButton:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header h2 {
+    color: #fff;
+    font-size: 24px;
+    margin: 0;
+}
+
+.addButton {
+    background-color: #7C86FF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.emptyState {
+    text-align: center;
+    color: #99A1AF;
+    padding: 40px;
+}
+
+.booksGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+/* Modal Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: #1E222B;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    height: 80vh;
+    border: 1px solid #2D3340;
+    display: flex;
+    flex-direction: column;
+}
+
+.modalHeader {
+    padding: 16px 24px;
+    border-bottom: 1px solid #2D3340;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modalHeader h3 {
+    margin: 0;
+    color: #fff;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: #99A1AF;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.searchInput {
+    margin: 16px 24px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #2D3340;
+    background-color: #13161C;
+    color: #fff;
+}
+
+.bookList {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 16px 16px;
+}
+
+.bookOption {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #2D3340;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 8px;
+}
+
+.bookOption:hover {
+    background-color: #2D3340;
+}
+
+.bookOptionCover {
+    width: 40px;
+    height: 60px;
+    background-color: #333;
+    margin-right: 12px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bookOptionCover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.placeholder {
+    color: #666;
+    font-size: 10px;
+}
+
+.bookOptionInfo {
+    flex: 1;
+}
+
+.bookOptionTitle {
+    color: #fff;
+    margin: 0 0 4px 0;
+    font-weight: 500;
+}
+
+.bookOptionAuthor {
+    color: #99A1AF;
+    margin: 0;
+    font-size: 13px;
+}
+
+.addOptionButton {
+    background: none;
+    border: 1px solid #7C86FF;
+    color: #7C86FF;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}

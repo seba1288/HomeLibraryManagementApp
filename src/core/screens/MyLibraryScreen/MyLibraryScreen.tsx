@@ -105,7 +105,7 @@ function MyLibraryScreen({ refreshKey = 0 }: MyLibraryScreenProps) {
     return (
         <>
             <SearchAndFilterOptions onSortChange={setSort} onFilterChange={handleFilterChange} />
-            <BookCount />
+            <BookCount refreshTrigger={refreshKey + localRefresh} />
             {loading ? (
                 <p>Loading books...</p>
             ) : (
