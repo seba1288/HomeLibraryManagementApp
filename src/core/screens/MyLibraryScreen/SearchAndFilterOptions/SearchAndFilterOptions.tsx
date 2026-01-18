@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./SearchAndFilterOptions.module.css";
-import { supabase } from "../../services/supabase";
+import { supabase } from "../../../services/supabase"
 
 
 function SearchAndFilterOptions({ onSortChange, onFilterChange }: { onSortChange: (sort: string) => void; onFilterChange?: (filters: any) => void }) {
