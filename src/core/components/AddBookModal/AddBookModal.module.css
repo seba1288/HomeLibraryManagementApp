@@ -193,3 +193,307 @@
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
+
+/* Author Section Styles */
+.authorSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.authorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #D1D5DC;
+}
+
+.authorSection label {
+  flex: 1;
+}
+
+.authorSearchInput {
+  font-size: 14px;
+  color: #D1D5DC;
+  outline: none;
+  transition: border-color 0.2s;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 0.8px solid #4A5565;
+  background: #364153;
+}
+
+.authorSearchInput:focus {
+  border-color: #7C86FF;
+}
+
+.authorSearchInput::placeholder {
+  color: #6b7280;
+}
+
+.authorSelect {
+  margin-top: 6px;
+  font-size: 15px;
+  color: #D1D5DC;
+  outline: none;
+  transition: border-color 0.2s;
+  display: flex;
+  padding: 0.5rem 0.75rem;
+  align-items: center;
+  flex-shrink: 0;
+  align-self: stretch;
+  border-radius: 0.5rem;
+  border: 0.8px solid #4A5565;
+  background: #364153;
+  min-height: 80px;
+  width: 100%;
+}
+
+.authorSelect:focus {
+  border-color: #7C86FF;
+}
+
+.authorSelect option {
+  padding: 8px;
+  background: #364153;
+  color: #D1D5DC;
+}
+
+.authorSelect option:checked {
+  background: #7C86FF;
+  color: white;
+}
+
+.addAuthorButton {
+  padding: 8px 16px;
+  background: #364153;
+  color: #7C86FF;
+  border: 0.8px solid #7C86FF;
+  border-radius: 0.5rem;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+
+.addAuthorButton:hover {
+  background: #7C86FF;
+  color: white;
+}
+
+.addAuthorForm {
+  background: #2a3441;
+  padding: 16px;
+  border-radius: 0.5rem;
+  border: 0.8px solid #4A5565;
+  margin-bottom: 8px;
+}
+
+.addAuthorForm h4 {
+  margin: 0 0 12px 0;
+  color: #D1D5DC;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.authorFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.authorFields input {
+  font-size: 14px;
+  color: #D1D5DC;
+  outline: none;
+  transition: border-color 0.2s;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 0.8px solid #4A5565;
+  background: #364153;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.authorFields input:focus {
+  border-color: #7C86FF;
+}
+
+.authorFields input::placeholder {
+  color: #6b7280;
+}
+
+.saveAuthorButton {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: #7C86FF;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.saveAuthorButton:hover {
+  background: #5a65d6;
+}
+
+.saveAuthorButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.selectedAuthors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  background: #2a3441;
+  border-radius: 0.5rem;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.authorTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: #7C86FF;
+  color: white;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.removeAuthor {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.removeAuthor:hover {
+  opacity: 1;
+}
+
+/* Publisher Section Styles */
+.publisherSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.publisherLabel {
+  font-size: 15px;
+  font-weight: 500;
+  color: #D1D5DC;
+}
+
+.publisherSearchRow {
+  display: flex;
+  gap: 8px;
+}
+
+.publisherSearchInput {
+  flex: 1;
+  font-size: 14px;
+  color: #D1D5DC;
+  outline: none;
+  transition: border-color 0.2s;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 0.8px solid #4A5565;
+  background: #364153;
+}
+
+.publisherSearchInput:focus {
+  border-color: #7C86FF;
+}
+
+.publisherSearchInput::placeholder {
+  color: #6b7280;
+}
+
+.addPublisherButton {
+  padding: 0.5rem 1rem;
+  background: #7C86FF;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 40px;
+}
+
+.addPublisherButton:hover:not(:disabled) {
+  background: #5a65d6;
+}
+
+.addPublisherButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.publisherSelect {
+  font-size: 14px;
+  color: #D1D5DC;
+  outline: none;
+  transition: border-color 0.2s;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 0.8px solid #4A5565;
+  background: #364153;
+  width: 100%;
+}
+
+.publisherSelect:focus {
+  border-color: #7C86FF;
+}
+
+.selectedPublisher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: #2a3441;
+  border-radius: 0.5rem;
+  font-size: 14px;
+  color: #D1D5DC;
+}
+
+.removePublisher {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+  margin-left: auto;
+}
+
+.removePublisher:hover {
+  color: #ef4444;
+}
+
+.fieldError {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.removeAuthor:hover {
+  opacity: 1;
+}
