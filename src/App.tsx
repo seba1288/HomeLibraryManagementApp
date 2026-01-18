@@ -30,6 +30,8 @@ function App() {
         return <MyLibraryScreen refreshKey={refreshKey} />;
       case 'shelves':
         return <ShelvesScreen />;
+      case 'recommendations':
+        return <RecommendationsScreen />;
       case 'import-export':
         return <ImportExportScreen onImportComplete={handleImportComplete} />;
       default:
@@ -46,13 +48,7 @@ function App() {
           currentView={currentView}
           onViewChange={setCurrentView}
         />
-        {currentView === 'library' ? (
-          <MyLibraryScreen refreshKey={refreshKey} />
-        ) : currentView === 'shelves' ? (
-          <ShelvesScreen />
-        ) : (
-            <RecommendationsScreen />
-        )}
+        {renderCurrentView()}
         <AddBookModal isOpen={isModalOpen} onClose={handleCloseModal} onBookAdded={handleBookAdded} />
       </div>
     </>
