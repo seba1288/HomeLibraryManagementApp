@@ -87,24 +87,6 @@ function AddBookModal({ isOpen, onClose, onBookAdded }: AddBookModalProps) {
     }
   };
 
-  const handleAddPublisher = async () => {
-    if (!publisherSearch.trim()) {
-      setError('Publisher name is required');
-      return;
-    }
-    setAddingPublisher(true);
-    setError(null);
-    try {
-      const newPublisher = await createPublisher(publisherSearch.trim());
-      await loadPublishers();
-      setSelectedPublisher(newPublisher.id);
-      setPublisherSearch('');
-    } catch (err: any) {
-      setError(err?.message || 'Failed to add publisher');
-    }
-    setAddingPublisher(false);
-  };
-
   const handleAddAuthor = async () => {
     if (!newAuthorFirstName.trim()) {
       setError('Author first name is required');

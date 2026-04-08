@@ -5,7 +5,7 @@ import styles from "./MyLibraryScreen.module.css";
 import { deleteBook, getBooks } from "../../services/books/books.service.ts";
 
 
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 type MyLibraryScreenProps = {
     refreshKey?: number;

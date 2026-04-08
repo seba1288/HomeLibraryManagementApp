@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./SearchAndFilterOptions.module.css";
 import { supabase } from "../../../services/supabase"
 

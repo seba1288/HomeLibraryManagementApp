@@ -61,7 +61,7 @@ export async function getUserLibrary(userId: number) {
 
 export async function getLibraryOverview(userId: number) {
   if (!userId) throw new Error('userId required')
-  const { data, error } = await supabase.from('user_library').select('status, count', { count: 'exact' }).eq('user_id', userId)
+  const { error } = await supabase.from('user_library').select('status, count', { count: 'exact' }).eq('user_id', userId)
   // If selecting status with counts in a single query is not supported by client, do manual counts
   if (error) {
     // fallback: fetch all and compute

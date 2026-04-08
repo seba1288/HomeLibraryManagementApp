@@ -19,10 +19,6 @@ type BookInput = {
 
 type BookRecord = any
 
-function normalizeName(s: string) {
-  return s.trim()
-}
-
 
 async function tryInsertBook(payload: Record<string, any>) {
   // Try inserting the payload as-is. If unknown-column errors occur (e.g., isbn/pages not present),

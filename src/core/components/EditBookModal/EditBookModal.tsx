@@ -10,7 +10,7 @@ type EditBookModalProps = {
   isOpen: boolean;
   onClose: () => void;
   book: any;
-  onBookUpdated: () => void;
+  onBookUpdated?: (updatedBook?: any) => void;
 };
 
 function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalProps) {
@@ -203,7 +203,7 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
       const payload = {
         title,
         authors: authorNames,
-        genres: genres ? genres.split(',').map(g => g.trim()).filter(Boolean) : [],
+        genres: genres ? genres.split(',').map((g: string) => g.trim()).filter(Boolean) : [],
         year_of_publishing: year ? Number(year) : null,
         isbn: isbn || null,
         current_page: currentPageNum,
@@ -217,7 +217,7 @@ function EditBookModal({ isOpen, onClose, book, onBookUpdated }: EditBookModalPr
       await updateBook(book.book_id || book.id, payload);
       setLoading(false);
       onClose();
-      onBookUpdated();
+      if (onBookUpdated) onBookUpdated();
     } catch (err: any) {
       setLoading(false);
       const errorMsg = err?.message || 'Failed to update book';
